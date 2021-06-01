@@ -21,7 +21,7 @@
         {
             trigger_error('Deserializing is not allowed.', E_USER_ERROR);
         }
-        private function __construct(){
+        public function __construct(){
             $config = parse_ini_file('config.ini.php');
             $this->host = $config['db_host'];
             $this->user = $config['db_user'];
