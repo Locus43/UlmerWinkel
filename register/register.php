@@ -6,6 +6,7 @@ require 'include/generateId.php';
 
 $id = "null";
 $email = $_GET['email'];
+$valid = false;
 
 $valid = validateEmail::validate($email);
 
@@ -21,6 +22,6 @@ if($valid == "true"){
         echo "Ein technischer Fehler ist aufgetreten. Bitte versuchen Sie es erneut. Sollte dieser Fehler erneut auftreten, schreiben Sie bitte eine Email an: <a href='mailto:jan@wehrheim.eu'>jan@wehrheim.eu</a>";
     }
 }else{
-    echo "Die Emailadresse ist nicht gültig. Bitte überprüfen Sie Ihre Eingabe.";
+    echo "Die Emailadresse ist entweder nicht gültig oder sie wurde bereits für den Newsletter registriert. Bitte überprüfen Sie Ihre Eingabe.";
 }
 ?>
