@@ -4,7 +4,8 @@ include "../register/include/sql.php";
 $id = $_GET['id'];
 
 $query = "update newsletter set is_confirmed = '1' where id = '" . $id . "'";
-$result = sql::getInstance()->dbquery($query);
+//$result = sql::getInstance()->dbquery($query);
+$result = getInstance()->dbquery($query);
 
 if($result == true){
     echo "Emailadresse wurde erfolgreich bestätigt. Vielen Dank für Ihre Registrierung.";

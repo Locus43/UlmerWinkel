@@ -11,7 +11,7 @@ class mailDeamon{
         $empfaenger = $email;
         $betreff = mailDeamon::$betreff;
         $from = mailDeamon::$from;
-        $id = getID($email);
+        $id = mailDeamon::getID($email);
         $text = "Hallo, <br>Vielen Dank für Ihre Registrierung für unseren Newsletter. Um Ihre Email-Adresse zu bestätigen, klicken Sie bitte <a href='evangelische-kirche-elchingen.de/confirm/index.php?id=". $id ."'>hier</a>.<br>Sollten Sie diesen Newsletter nicht bestellt haben, löschen oder ignorieren Sie bitte diese Email.'";
         mail($empfaenger, $betreff, $text, $from);
     }

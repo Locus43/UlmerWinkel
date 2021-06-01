@@ -1,19 +1,19 @@
 <?php
 require 'include/validateEmail.php';
-require 'include/sql.php';
+//require 'include/sql.php';
 require 'include/mailDeamon.php';
 require 'include/generateId.php';
 
 $id = "null";
-$email = $_POST['email'];
+$email = $_GET['email'];
 
-$valid = validate($email);
+$valid = validateEmail::validate($email);
 
-if($valid == true){
-    $id = generateId();
+if($valid == "true"){
+    $id = (new generateId)->generateId();
     $query = "insert into newsletter (id, email) values('" . $id . $email . "')";
     $result = sql::getInstance()->dbquery($query);
-    if($result == true){
+    if($result == "true"){
         mailDeamon::sendMail($email);
         echo "Bestätigungsemail wurde verschickt. Bitte bestätigen Sie Ihre Emailadresse.";
     }else{
