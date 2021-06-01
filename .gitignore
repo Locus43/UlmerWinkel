@@ -5,3 +5,4 @@ config.*
 .idea/
 .gitignore.
 .idea/workspace.xml
+releases/

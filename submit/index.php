@@ -9,5 +9,5 @@ $result = sql::getInstance()->dbquery($query);
 if($result == true){
     echo "Emailadresse wurde erfolgreich bestätigt. Vielen Dank für Ihre Registrierung.";
 }else{
-    echo "Fehler. Die Emailadresse konnte nicht bestätigt werden."; 
+    echo "Fehler. Die Emailadresse konnte nicht bestätigt werden.";
 }
