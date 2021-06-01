@@ -1,5 +1,5 @@
 <?php
-include "../register/include/sql.php";
+include "../register/include/db.php";
 
 $id = $_GET['id'];
 

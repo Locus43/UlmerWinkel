@@ -1,6 +1,6 @@
 <?php
 
-    class sql extends mysqli{
+    class db extends mysqli{
         private static $instance = null;
         private $user;
         private $passwd;
@@ -37,6 +37,8 @@
         public function dbquery($query){
             if($this->query($query)){
                 return true;
+            }else{
+                return false;
             }
         }
         public function get_result($query){
