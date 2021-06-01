@@ -14,7 +14,10 @@ class mailDeamon{
         );
         $empfaenger = $email;
         $id = mailDeamon::getID($email);
-        $text = "Hallo, <br>Vielen Dank für Ihre Registrierung für unseren Newsletter. Um Ihre Email-Adresse zu bestätigen, klicken Sie bitte <a href='evangelische-kirche-elchingen.de/confirm/index.php?id=". $id ."'>hier</a>.<br>Sollten Sie diesen Newsletter nicht bestellt haben, löschen oder ignorieren Sie bitte diese Email.";
+        //Richtige Domain
+        //$text = "Hallo, <br>Vielen Dank für Ihre Registrierung für unseren Newsletter. Um Ihre Email-Adresse zu bestätigen, klicken Sie bitte <a href='evangelische-kirche-elchingen.de/confirm/index.php?id=". $id ."'>hier</a>.<br>Sollten Sie diesen Newsletter nicht bestellt haben, löschen oder ignorieren Sie bitte diese Email.";
+        //Testdomain
+        $text = "Hallo, <br>Vielen Dank für Ihre Registrierung für unseren Newsletter. Um Ihre Email-Adresse zu bestätigen, klicken Sie bitte <a href='5b5c3771c1629.prepaiddomain.de/test/ulmer-winkel/newsletter/submit/index.php?id=". $id ."'>hier</a>.<br>Sollten Sie diesen Newsletter nicht bestellt haben, löschen oder ignorieren Sie bitte diese Email.";
         mail($empfaenger, $betreff, $text, $header);
     }
     private function getID($email){
