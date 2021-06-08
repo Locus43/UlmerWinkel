@@ -2,6 +2,7 @@ config.*
 *.ini.php
 *.ini
 #*.ini.*
+*.json
 .idea/
 .gitignore.
 .idea/workspace.xml

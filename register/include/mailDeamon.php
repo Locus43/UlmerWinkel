@@ -4,21 +4,24 @@ include 'db.php';
 class mailDeamon{
 
 
-    public function sendMail($email){
-        $betreff = "Ulmer-Winkel - Newsletter | Bitte bestätigen Sie Ihre Email-Adresse";
+    public function sendRegisterMail($email){
+        $mailMask = json_decode(file_get_contents("include/mail.json"), true);
+        $subject = $mailMask["submit"]["subject"];
+        $receiver = $email;
+        $id = mailDeamon::getID($email);
+        $text = $mailMask["submit"]["text1"];
+        $text .= $id;
+        $text .= $mailMask["submit"]["text2"];
+        $mailConfig = parse_ini_file('config.ini.php');
+        $sender = $mailConfig['sender'];
+
         $header = array(
-            'From' => 'newsletter@evangelische-kirche-elchingen.de',
-            'Reply-To' => 'newsletter@evangelische-kirche-elchingen.de',
+            'From' => $sender,
+            'Reply-To' => $sender,
             'X-Mailer' => 'PHP/' . phpversion(),
             'Content-type' => 'text/html; charset=utf-8'
         );
-        $empfaenger = $email;
-        $id = mailDeamon::getID($email);
-        //Richtige Domain
-        //$text = "Hallo, <br>Vielen Dank für Ihre Registrierung für unseren Newsletter. Um Ihre Email-Adresse zu bestätigen, klicken Sie bitte <a href='evangelische-kirche-elchingen.de/confirm/index.php?id=". $id ."'>hier</a>.<br>Sollten Sie diesen Newsletter nicht bestellt haben, löschen oder ignorieren Sie bitte diese Email.";
-        //Testdomain
-        $text = "Hallo, <br>Vielen Dank für Ihre Registrierung für unseren Newsletter. Um Ihre Email-Adresse zu bestätigen, klicken Sie bitte <a href='5b5c3771c1629.prepaiddomain.de/test/ulmer-winkel/newsletter/submit/index.php?id=". $id ."'>hier</a>.<br>Sollten Sie diesen Newsletter nicht bestellt haben, löschen oder ignorieren Sie bitte diese Email.";
-        mail($empfaenger, $betreff, $text, $header);
+        mail($receiver, $subject, $text, $header);
     }
     private function getID($email){
         $query = "select id from newsletter where email = '" . $email . "'";
