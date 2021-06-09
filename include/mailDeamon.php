@@ -1,5 +1,5 @@
 <?php
-include 'db.php';
+require_once("db.php");
 
 class mailDeamon{
 
@@ -28,5 +28,18 @@ class mailDeamon{
         $result = db::getInstance()->get_result($query);
         $result = $result['id'];
         return $result;
+    }
+    public function sendNewsletter($email, $text, $subject){
+        $receiver = $email;
+        $mailConfig = parse_ini_file('config.ini.php');
+        $sender = $mailConfig['sender'];
+        $header = array(
+            'From' => $sender,
+            'Reply-To' => $sender,
+            'X-Mailer' => 'PHP/' . phpversion(),
+            'Content-type' => 'text/html; charset=utf-8'
+        );
+
+        mail($receiver, $subject, $text, $header);
     }
 }

@@ -1,5 +1,5 @@
 <?php
-require "../include/db.php";
+require_once("../include/db.php");
 
 $query = "select email from newsletter where is_confirmed='1'";
 $result = db::getInstance()->get_result($query);
@@ -53,7 +53,7 @@ $result = db::getInstance()->get_result($query);
                 entsprechende Option im Drop-Down Menü.
                 </p>
             <p>
-                <form action="!!! POST-SCRIPT hier !!!">
+                <form action="bakeCake.php">
                     <p>Hier können Sie den Newsletter verfassen. HTML-Tags werden unterstützt. Eine entsprechende Liste gibt es <a href="https://www.mediaevent.de/html/html5-tags.html">hier.</a></p>
                     <hr>
                     <select name="emailOption">
@@ -66,7 +66,9 @@ $result = db::getInstance()->get_result($query);
                     </select>
                     <br>
                     <br>
-                    <textarea id="mailText" name="mailText"></textarea>
+                    <input type="text" id="subject" name="subject" placeholder="Betreff" required>
+                    <br>
+                    <textarea id="mailText" name="mailText" placeholder="Newsletter" required></textarea>
                     <hr>
                     <button type="submit" class="button">Abschicken</button>
                 </form>

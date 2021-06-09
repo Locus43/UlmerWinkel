@@ -1,4 +1,5 @@
 <?php
+require_once("db.php");
 
 class validateEmail{
     public function validate($email){
