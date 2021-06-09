@@ -10,6 +10,7 @@ class validateEmail{
             return false;
         }
     }
+    //ToDo: replace if statement with for loop over all rows and check for duplicates -> if different emails, only the first row gets checked
     private function checkForDuplicates($email){
             $query = "select email from newsletter";
             $result = db::getInstance()->get_result($query);
