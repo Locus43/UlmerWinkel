@@ -15,4 +15,7 @@ if($emailOption == "all"){
         mailDeamon::sendNewsletter($email, $text, $subject);
     }
     echo "<script>history.go(-1)</script>";
+}elseif ($emailOption != "all"){
+    mailDeamon::sendNewsletter($email, $text, $subject);
+    echo "<script>history.go(-1)</script>";
 }
