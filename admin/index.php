@@ -3,6 +3,7 @@ require_once("../include/db.php");
 
 $query = "select email from newsletter where is_confirmed='1'";
 $result = db::getInstance()->get_result($query);
+
 ?>
 
 <!DOCTYPE HTML>
@@ -100,6 +101,13 @@ $characters = json_decode($data);
 <script src="assets/js/breakpoints.min.js"></script>
 <script src="assets/js/util.js"></script>
 <script src="assets/js/main.js"></script>
+<script>
+    clearform();
+    function clearform(){
+        document.getElementById("subject").value="";
+        document.getElementById("mailText").value="";
+    }
+</script>
 
 </body>
 </html>

@@ -1,5 +1,4 @@
 <?php
-
 require_once("../include/db.php");
 require_once("../include/mailDeamon.php");
 
@@ -15,4 +14,5 @@ if($emailOption == "all"){
         $email = $result[$i][0];
         mailDeamon::sendNewsletter($email, $text, $subject);
     }
+    echo "<script>history.go(-1)</script>";
 }
