@@ -1,6 +1,6 @@
 <?php
 require_once('../include/validateEmail.php');
-require_once('include/db.php');
+require_once('../include/db.php');
 require_once('../include/mailDeamon.php');
 require_once('../include/generateId.php');
 

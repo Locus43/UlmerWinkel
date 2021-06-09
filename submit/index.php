@@ -3,11 +3,15 @@ require_once("../include/db.php");
 
 $id = $_GET['id'];
 
-$query = "update newsletter set is_confirmed = '1' where id = '" . $id . "'";
-$result = db::getInstance()->dbquery($query);
+if($id != ""){
+    $query = "update newsletter set is_confirmed = '1' where id = '" . $id . "'";
+    $result = db::getInstance()->dbquery($query);
 
-if($result == true){
-    echo "Emailadresse wurde erfolgreich bestätigt. Vielen Dank für Ihre Registrierung.";
+    if($result == true){
+        echo "Emailadresse wurde erfolgreich bestätigt. Vielen Dank für Ihre Registrierung.";
+    }else{
+        echo "Fehler. Die Emailadresse konnte nicht bestätigt werden.";
+    }
 }else{
-    echo "Fehler. Die Emailadresse konnte nicht bestätigt werden.";
+    echo "Fehler. Die Emailadresse konnte nicht bestätigt werden: ID = NULL";
 }
