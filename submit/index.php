@@ -1,10 +1,9 @@
 <?php
-include "../register/include/db.php";
+include "../include/db.php";
 
 $id = $_GET['id'];
 
 $query = "update newsletter set is_confirmed = '1' where id = '" . $id . "'";
-//$result = sql::getInstance()->dbquery($query);
 $result = db::getInstance()->dbquery($query);
 
 if($result == true){

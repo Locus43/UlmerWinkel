@@ -1,8 +1,8 @@
 <?php
-require 'include/validateEmail.php';
+require '../include/validateEmail.php';
 //require 'include/db.php';
-require 'include/mailDeamon.php';
-require 'include/generateId.php';
+require '../include/mailDeamon.php';
+require '../include/generateId.php';
 
 $id = "null";
 $email = $_GET['email'];
