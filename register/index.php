@@ -50,6 +50,28 @@
                     <label for="email"><b>Email-Adresse</b></label>
                     <input type="text" placeholder="Email-Adresse" name="email" id="email" required>
                     <hr>
+                    <p>Bitte wählen Sie die Themen, zu denen Sie updates erhalten wollen.</p>
+                    <input type="checkbox" id="1" name="topic[]" value="1"><label for="1">Gottesdienste</label>
+
+                    <input type="checkbox" id="2" name="topic[]" value="2"><label for="2">Gruppen/Kreise</label>
+
+                    <input type="checkbox" id="3" name="topic[]" value="3"><label for="3">Fortbildungen/Seminare</label>
+
+                    <input type="checkbox" id="4" name="topic[]" value="4"><label for="4">Konzerte/Theater/Musik</label>
+
+                    <input type="checkbox" id="5" name="topic[]" value="5"><label for="5">Freizeiten/Reisen</label>
+
+                    <input type="checkbox" id="6" name="topic[]" value="6"><label for="6">Ausstellungen/Kunst</label>
+
+                    <input type="checkbox" id="7" name="topic[]" value="7"><label for="7">Feste/Feiern</label>
+
+                    <input type="checkbox" id="8" name="topic[]" value="8"><label for="8">Sport/Spiel</label>
+
+                    <input type="checkbox" id="9" name="topic[]" value="9"><label for="9">Sonstiges</label>
+
+                    <input type="checkbox" id="10" name="topic[]" value="10"><label for="10">Fortbildungen/Seminare</label>
+
+                    <hr>
                     <p>Durch drücken auf "Registrieren", bestätigen Sie, dass Sie mit unseren <a href="">Datenschutzbestimmungen</a> einverstanden sind.</p>
                     <button type="submit" class="button">Registrieren</button>
                 </form>
@@ -85,6 +107,16 @@ $characters = json_decode($data);
     clearform();
     function clearform(){
         document.getElementById("email").value="";
+        document.getElementById("1").checked=false;
+        document.getElementById("2").checked=false;
+        document.getElementById("3").checked=false;
+        document.getElementById("4").checked=false;
+        document.getElementById("5").checked=false;
+        document.getElementById("6").checked=false;
+        document.getElementById("7").checked=false;
+        document.getElementById("8").checked=false;
+        document.getElementById("9").checked=false;
+        document.getElementById("10").checked=false;
     }
 </script>
 
