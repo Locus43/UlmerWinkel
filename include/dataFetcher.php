@@ -5,15 +5,15 @@ class dataFetcher{
     private $jsonMask;
     private $baseUrl;
 
-    public function fetchData(){
+    public static function fetchData(){
         $config = parse_ini_file('config.ini.php');
-        $this->baseUrl = $config['url'];
-        $this->jsonMask = $config['mask'];
+        $baseUrl = $config['url'];
+        $jsonMask = $config['mask'];
         $eventData = array();
         $temp = array(); //array for data of an event; only temporary
 
         for($eventType = 0; $eventType < 11; $eventType++){
-            $baseUrl = str_replace("$eventType", "{{eventType}}", $this->baseUrl);
+            $baseUrl = str_replace("$eventType", "{{eventType}}", $baseUrl);
             $curl =  curl_init();
             curl_setopt_array($curl, Array(
                 CURLOPT_URL => $baseUrl,
@@ -69,6 +69,5 @@ class dataFetcher{
         }
         $eventData = json_encode($eventData);
         file_put_contents("/tmp/eventData.json", $eventData);
-        return "ok";
     }
 }

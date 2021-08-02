@@ -4,4 +4,4 @@ require_once ("../../include/config.ini.php");
 require_once ("../../include/dataFetcher.php");
 
 
-$dataFetch = dataFetcher::fetchData();
+dataFetcher::fetchData();
