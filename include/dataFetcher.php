@@ -6,6 +6,7 @@ class dataFetcher{
     private $baseUrl;
 
     public static function fetchData(){
+        echo "test";
         $config = parse_ini_file('config.ini.php');
         $baseUrl = $config['url'];
         $jsonMask = $config['mask'];
