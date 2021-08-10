@@ -1,22 +1,23 @@
 <?php
+$eventData = [];
+$temp = []; //array for data of an event; only temporary
+
+
 
 dataFetcher::fetchData();
 
 class dataFetcher{
 
-    private $jsonMask;
-    private $baseUrl;
-
     public static function fetchData(){
         $config = parse_ini_file('config.ini.php');
         $baseUrl = $config['url'];
-        $eventData = array();
-        $temp = array(); //array for data of an event; only temporary
+        global $eventData;
+        global $temp;
 
-        for($eventType = 1; $eventType < 11; $eventType++){
+        for($idx = 1; $idx <= 11; $idx++){
+            echo $idx;
+            $eventType = $idx;
             $baseUrl = str_replace("{{eventType}}", $eventType, $baseUrl);
-            //print "\r";
-            //echo $eventType;
 
             echo $baseUrl; //debug
             echo "<br><br>";
@@ -62,40 +63,53 @@ class dataFetcher{
                 }if($email == ""){
                     $email = "";
                 }
-                /*$temp[] = "'month' => '" . $monthbar . "'";
-                $temp[] = "'time' => '" . $time . "'";
-                $temp[] = "'date' => '" . $date . "'";
-                $temp[] = "'title' => '" . $title. "'";
-                $temp[] = "'performers' => '" . $performers . "'";
-                $temp[] = "'description' => '" . $description . "'";
-                $temp[] = "'location' => '" . $location . "'";
-                $temp[] = "'locationCity' => '" . $locationCity . "'";
-                $temp[] = "'email' => '" . $email . "'";
-                $temp[] = "<br><br>";*/
 
-                array_push($temp, "'month' => '" . $monthbar . "'");
-                array_push($temp, "'time' => '" . $time . "'");
-                array_push($temp, "'date' => '" . $date . "'");
-                array_push($temp, "'title' => '" . $title . "'");
-                array_push($temp, "'performers' => '" . $performers . "'");
-                array_push($temp, "'description' => '" . $description . "'");
-                array_push($temp, "'location' => '" . $location . "'");
-                array_push($temp, "'locationCity' => '" . $locationCity . "'");
-                array_push($temp, "'email' => '" . $email . "'");
+                echo "<br><br>";
+                var_dump($temp);
+                echo "<br><br>";
+
+                $monthbar = "'month' => '" . $monthbar . "'";
+                echo $monthbar;
+                $time = "'time' => '" . $time . "'";
+                $date = "'date' => '" . $date . "'";
+                $title = "'title' => '" . $title . "'";
+                $performers = "'performers' => '" . $performers . "'";
+                $description = "'description' => '" . $description . "'";
+                $location = "'location' => '" . $location . "'";
+                $locationCity = "'locationCity' => '" . $locationCity . "'";
+                $email = "'email' => '" . $email . "'";
+
+                $temp[] = $monthbar;
+                $temp[] = $time;
+                $temp[] = $date;
+                $temp[] = $title;
+                $temp[] = $performers;
+                $temp[] = $description;
+                $temp[] = $location;
+                $temp[] = $locationCity;
+                $temp[] = $email;
+
+                echo "<br><br>";
+                var_dump($temp);
+
+                /*array_push($temp, $monthbar);
+                array_push($temp, $time);
+                array_push($temp, $date);
+                array_push($temp, $title);
+                array_push($temp, $performers);
+                array_push($temp, $description);
+                array_push($temp, $location);
+                array_push($temp, $locationCity);
+                array_push($temp, $email);*/
 
                 $temp = json_encode($temp);
-                var_dump($temp);
                 $tmp = "'" . $eventType . "' => " . "'" . $temp . "'";
                 array_push($eventData, $tmp);
                 echo "<br><br>";
-                var_dump($tmp);
-                echo $monthbar;
-                echo "<br><br><br>";
-                echo $eventType;
+                var_dump($eventData);
             }
-            echo "<br><br><br>";
-            echo $eventType;
         }
+        //var_dump($eventData);
         $eventData = json_encode($eventData);
         file_put_contents("/tmp/eventData.json", $eventData);
     }
