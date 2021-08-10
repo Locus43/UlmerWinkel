@@ -1,8 +1,5 @@
 <?php
-$eventData = [];
-$temp = []; //array for data of an event; only temporary
-
-
+$eventData = array(); //final array for events
 
 dataFetcher::fetchData();
 
@@ -11,16 +8,15 @@ class dataFetcher{
     public static function fetchData(){
         $config = parse_ini_file('config.ini.php');
         $baseUrl = $config['url'];
-        global $eventData;
-        global $temp;
+        $eventType = 0;
 
-        for($idx = 1; $idx <= 11; $idx++){
-            echo $idx;
-            $eventType = $idx;
-            $baseUrl = str_replace("{{eventType}}", $eventType, $baseUrl);
+        for($idx = 1; $idx <= 10; $idx++){
+            $eventType = $eventType + 1;
+            echo $eventType;
+            $baseUrl = str_replace("{{EVENTTYPE}}", "$idx", $baseUrl);
 
             echo $baseUrl; //debug
-            echo "<br><br>";
+            echo "<br><br>"; //debug
             $curl =  curl_init();
             curl_setopt_array($curl, Array(
                 CURLOPT_URL => $baseUrl,
@@ -33,6 +29,8 @@ class dataFetcher{
 
 
             foreach($data->Export->Veranstaltung as $data){
+                $temp = array(); //array for data of an event; only temporary
+
                 $monthbar = $data->monthbar;
                 $time = $data->START_UHRZEIT;
                 $date = $data->DATUM;
@@ -64,20 +62,15 @@ class dataFetcher{
                     $email = "";
                 }
 
-                echo "<br><br>";
-                var_dump($temp);
-                echo "<br><br>";
-
-                $monthbar = "'month' => '" . $monthbar . "'";
-                echo $monthbar;
-                $time = "'time' => '" . $time . "'";
-                $date = "'date' => '" . $date . "'";
-                $title = "'title' => '" . $title . "'";
-                $performers = "'performers' => '" . $performers . "'";
-                $description = "'description' => '" . $description . "'";
-                $location = "'location' => '" . $location . "'";
-                $locationCity = "'locationCity' => '" . $locationCity . "'";
-                $email = "'email' => '" . $email . "'";
+                $monthbar = "month=>". $monthbar;
+                $time = "time=>" . $time;
+                $date = "date=>" . $date;
+                $title = "title=>" . $title;
+                $performers = "performers=>" . $performers;
+                $description = "description=>" . $description;
+                $location = "location=>" . $location;
+                $locationCity = "locationCity=>" . $locationCity;
+                $email = "email=>" . $email;
 
                 $temp[] = $monthbar;
                 $temp[] = $time;
@@ -89,28 +82,16 @@ class dataFetcher{
                 $temp[] = $locationCity;
                 $temp[] = $email;
 
-                echo "<br><br>";
-                var_dump($temp);
-
-                /*array_push($temp, $monthbar);
-                array_push($temp, $time);
-                array_push($temp, $date);
-                array_push($temp, $title);
-                array_push($temp, $performers);
-                array_push($temp, $description);
-                array_push($temp, $location);
-                array_push($temp, $locationCity);
-                array_push($temp, $email);*/
-
-                $temp = json_encode($temp);
-                $tmp = "'" . $eventType . "' => " . "'" . $temp . "'";
-                array_push($eventData, $tmp);
-                echo "<br><br>";
-                var_dump($eventData);
+                $temp = json_encode($temp, JSON_FORCE_OBJECT, JSON_UNESCAPED_SLASHES);
+                $tmp = $eventType . " => " . $temp;
+                $eventData[] = $tmp;
             }
         }
-        //var_dump($eventData);
-        $eventData = json_encode($eventData);
-        file_put_contents("/tmp/eventData.json", $eventData);
+        var_dump($eventData);
+        $eventData = json_encode($eventData, JSON_FORCE_OBJECT, JSON_UNESCAPED_SLASHES);
+        $eventDataFile = fopen("test.json", "w") or die ("Unable to write file");
+        fwrite($eventDataFile, $eventData);
+        fclose($eventDataFile);
+        //file_put_contents("/tmp/eventData.json", $eventData);
     }
 }
