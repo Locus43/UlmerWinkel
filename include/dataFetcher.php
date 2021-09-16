@@ -7,10 +7,10 @@ class dataFetcher{
 
     public static function fetchData(){
         $config = parse_ini_file('config.ini.php');
-        $baseUrl = $config['url'];
         $eventType = 0;
 
         for($idx = 1; $idx <= 10; $idx++){
+            $baseUrl = $config['url'];
             $eventType = $eventType + 1;
             echo $eventType;
             $baseUrl = str_replace("{{EVENTTYPE}}", "$idx", $baseUrl);
