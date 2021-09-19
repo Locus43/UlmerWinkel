@@ -1,4 +1,7 @@
 <?php
+
+//ToDo: Fix problem with json formatting -> file is not usable
+
 $eventData = array(); //final array for events
 
 dataFetcher::fetchData();
@@ -62,15 +65,15 @@ class dataFetcher{
                     $email = "";
                 }
 
-                $monthbar = "month=>". $monthbar;
-                $time = "time=>" . $time;
-                $date = "date=>" . $date;
-                $title = "title=>" . $title;
-                $performers = "performers=>" . $performers;
-                $description = "description=>" . $description;
-                $location = "location=>" . $location;
-                $locationCity = "locationCity=>" . $locationCity;
-                $email = "email=>" . $email;
+                $monthbar = 'month => '. $monthbar;
+                $time = 'time '.'=> ' . $time;
+                $date = 'date => ' . $date;
+                $title = "title => " . $title;
+                $performers = "performers => " . $performers;
+                $description = "description => " . $description;
+                $location = "location => " . $location;
+                $locationCity = "locationCity => " . $locationCity;
+                $email = "email => " . $email;
 
                 $temp[] = $monthbar;
                 $temp[] = $time;
