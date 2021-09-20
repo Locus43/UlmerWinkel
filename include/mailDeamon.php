@@ -4,17 +4,17 @@ require_once("db.php");
 class mailDeamon{
 
 
-    public function sendRegisterMail($email){
-        $mailDeamon = new mailDeamon();
-        $mailMask = json_decode(file_get_contents('../include/mail.json'), true);
-        $subject = $mailMask["submit"]["subject"];
+    public static function sendRegisterMail($email){
+        $mailMask = parse_ini_file("mail.ini.php");
+        $config = parse_ini_file('config.ini.php');
+        $base_url = $config['base_url'];
+        $subject = $mailMask["subject"];
         $receiver = $email;
-        $id = $mailDeamon->getID($email);
-        $text = $mailMask["submit"]["text1"];
-        $text .= $id;
-        $text .= $mailMask["submit"]["text2"];
-        $mailConfig = parse_ini_file('config.ini.php');
-        $sender = $mailConfig['sender'];
+        $id = mailDeamon::getID($email);
+        $textMask = $mailMask["text"];
+        $text = str_replace("{{BASE_URL}}", "$base_url", $textMask);
+        $text = str_replace("{{SUBMIT_ID}}", "$id", $text);
+        $sender = $config['sender'];
 
         $header = array(
             'From' => $sender,
@@ -24,7 +24,7 @@ class mailDeamon{
         );
         mail($receiver, $subject, $text, $header);
     }
-    private function getID($email){
+    private static function getID($email){
         $query = "select id from newsletter where email = '" . $email . "'";
         $result = db::getInstance()->get_result($query);
         //$result = $result['id'];
