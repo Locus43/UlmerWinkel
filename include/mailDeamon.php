@@ -30,7 +30,7 @@ class mailDeamon{
         //$result = $result['id'];
         return $result[0][0];
     }
-    public function sendNewsletter($email, $text, $subject){
+    public static function sendNewsletter($email, $text, $subject){
         $receiver = $email;
         $mailConfig = parse_ini_file('config.ini.php');
         $sender = $mailConfig['sender'];
