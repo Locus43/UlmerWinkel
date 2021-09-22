@@ -55,7 +55,7 @@ if($valid == "true"){
         mailDeamon::sendRegisterMail($email);
         echo "Bestätigungsemail wurde verschickt. Bitte bestätigen Sie Ihre Emailadresse.";
     }else{
-        echo "Ein technischer Fehler ist aufgetreten. Bitte versuchen Sie es erneut. Sollte dieser Fehler erneut auftreten, schreiben Sie bitte eine Email an: <a href='mailto:jan@wehrheim.eu'>jan@wehrheim.eu</a>";
+        echo "Ein technischer Fehler ist aufgetreten. Bitte versuchen Sie es erneut. Sollte dieser Fehler erneut auftreten, schreiben Sie bitte eine Email an: <a href='mailto:jan@wehrheim.eu'>jan(at)wehrheim.eu</a>";
     }
 }else{
     echo "Die Emailadresse ist entweder nicht gültig oder sie wurde bereits für den Newsletter registriert. Bitte überprüfen Sie Ihre Eingabe.";

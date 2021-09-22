@@ -8,10 +8,10 @@ class mailDeamon{
         $mailMask = parse_ini_file("mail.ini.php");
         $config = parse_ini_file('config.ini.php');
         $base_url = $config['base_url'];
-        $subject = $mailMask["subject"];
+        $subject = $mailMask["submitSubject"];
         $receiver = $email;
         $id = mailDeamon::getID($email);
-        $textMask = $mailMask["text"];
+        $textMask = $mailMask["submitText"];
         $text = str_replace("{{BASE_URL}}", "$base_url", $textMask);
         $text = str_replace("{{SUBMIT_ID}}", "$id", $text);
         $sender = $config['sender'];
@@ -24,10 +24,9 @@ class mailDeamon{
         );
         mail($receiver, $subject, $text, $header);
     }
-    private static function getID($email){
+    public static function getID($email){
         $query = "select id from newsletter where email = '" . $email . "'";
         $result = db::getInstance()->get_result($query);
-        //$result = $result['id'];
         return $result[0][0];
     }
     public static function sendNewsletter($email, $text, $subject){

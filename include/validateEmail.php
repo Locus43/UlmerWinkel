@@ -15,13 +15,17 @@ class validateEmail{
     private static function checkForDuplicates($email){
             $query = "select email from newsletter";
             $result = db::getInstance()->get_result($query);
-            foreach ($result as $result){
-                $result = $result[0];
-                if($result == $email){
-                    return true;
-                }elseif($result == null){
-                    return false;
+            if(is_array($result)){
+                foreach ($result as $result){
+                    $result = $result[0];
+                    if($result == $email){
+                        return true;
+                    }elseif($result == null){
+                        return false;
+                    }
                 }
+            }else{
+                return false;
             }
     }
 }

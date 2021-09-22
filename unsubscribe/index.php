@@ -10,8 +10,8 @@ if($id != ""){
     if($result == true){
         echo "Sie haben sich erfolgreich vom Newsletter abgemeldet.";
     }else{
-        echo "Fehler. Die Emailadresse wurde entweder nicht gefunden, oder konnte nicht aus unserer Datenbank gelöscht werden. Bitte versuchen SIe es erneut.";
+        echo "Fehler. Die Emailadresse wurde entweder nicht gefunden, oder konnte nicht aus unserer Datenbank gelöscht werden. Bitte versuchen Sie es erneut.";
     }
 }else{
-    echo "Fehler. Die Emailadresse konnte nicht bestätigt werden: ID = NULL";
+    echo "Fehler. Die Emailadresse konnte nicht gelöscht werden: ID = NULL";
 }
