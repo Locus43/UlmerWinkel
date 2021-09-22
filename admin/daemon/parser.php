@@ -12,10 +12,7 @@ class parser{
         //prepare data for newsletter
         $jsonFile =  file_get_contents("../../include/tmp/tmp.json");
         $mainData = json_decode($jsonFile, true);
-
-        //get all users for certain topic
-        //$users = parser::getUser("gottesdienste");
-
+        
         //combine topics and data
         for ($i=1; $i<= 10; $i++){
             switch ($i){
