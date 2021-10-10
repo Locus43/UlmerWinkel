@@ -65,7 +65,7 @@ class parser{
                             $newsletterText .= " (" . $performers . ")";
                         }if($description != ""){
                             $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td>";
+                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
                     }
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
@@ -105,7 +105,7 @@ class parser{
                             $email = "";
                         }
 
-                        $newsletterText .= "<tbody>";
+                        $newsletterText .= "<table><tbody>";
                         if($month != ""){
                             $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                         }$newsletterText .= "<tr><td><strong>";
@@ -118,7 +118,7 @@ class parser{
                             $newsletterText .= " (" . $performers . ")";
                         }if($description != ""){
                             $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr></tbody>";
+                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
                     }
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
@@ -159,7 +159,7 @@ class parser{
                             $email = "";
                         }
 
-                        $newsletterText .= "<tbody>";
+                        $newsletterText .= "<table><tbody>";
                         if($month != ""){
                             $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                         }$newsletterText .= "<tr><td><strong>";
@@ -172,7 +172,7 @@ class parser{
                             $newsletterText .= " (" . $performers . ")";
                         }if($description != ""){
                             $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr></tbody>";
+                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
                     }
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
@@ -213,7 +213,7 @@ class parser{
                             $email = "";
                         }
 
-                        $newsletterText .= "<tbody>";
+                        $newsletterText .= "<table><tbody>";
                         if($month != ""){
                             $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                         }$newsletterText .= "<tr><td><strong>";
@@ -226,7 +226,7 @@ class parser{
                             $newsletterText .= " (" . $performers . ")";
                         }if($description != ""){
                             $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr></tbody>";
+                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
                     }
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
@@ -267,7 +267,7 @@ class parser{
                             $email = "";
                         }
 
-                        $newsletterText .= "<tbody>";
+                        $newsletterText .= "<table><tbody>";
                         if($month != ""){
                             $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                         }$newsletterText .= "<tr><td><strong>";
@@ -280,7 +280,7 @@ class parser{
                             $newsletterText .= " (" . $performers . ")";
                         }if($description != ""){
                             $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr></tbody>";
+                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>>";
                     }
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
@@ -321,7 +321,7 @@ class parser{
                             $email = "";
                         }
 
-                        $newsletterText .= "<tbody>";
+                        $newsletterText .= "<table><tbody>";
                         if($month != ""){
                             $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                         }$newsletterText .= "<tr><td><strong>";
@@ -334,7 +334,7 @@ class parser{
                             $newsletterText .= " (" . $performers . ")";
                         }if($description != ""){
                             $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr></tbody>";
+                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
                     }
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
@@ -375,7 +375,7 @@ class parser{
                             $email = "";
                         }
 
-                        $newsletterText .= "<tbody>";
+                        $newsletterText .= "<table><tbody>";
                         if($month != ""){
                             $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                         }$newsletterText .= "<tr><td><strong>";
@@ -388,7 +388,7 @@ class parser{
                             $newsletterText .= " (" . $performers . ")";
                         }if($description != ""){
                             $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr></tbody>";
+                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
                     }
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
@@ -429,7 +429,7 @@ class parser{
                             $email = "";
                         }
 
-                        $newsletterText .= "<tbody>";
+                        $newsletterText .= "<table><tbody>";
                         if($month != ""){
                             $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                         }$newsletterText .= "<tr><td><strong>";
@@ -442,7 +442,7 @@ class parser{
                             $newsletterText .= " (" . $performers . ")";
                         }if($description != ""){
                             $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr></tbody>";
+                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
                     }
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
@@ -483,7 +483,7 @@ class parser{
                             $email = "";
                         }
 
-                        $newsletterText .= "<tbody>";
+                        $newsletterText .= "<table><tbody>";
                         if($month != ""){
                             $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                         }$newsletterText .= "<tr><td><strong>";
@@ -496,7 +496,7 @@ class parser{
                             $newsletterText .= " (" . $performers . ")";
                         }if($description != ""){
                             $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr></tbody>";
+                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
                     }
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
@@ -537,7 +537,7 @@ class parser{
                             $email = "";
                         }
 
-                        $newsletterText .= "<tbody>";
+                        $newsletterText .= "<table><tbody>";
                         if($month != ""){
                             $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                         }$newsletterText .= "<tr><td><strong>";
@@ -550,7 +550,7 @@ class parser{
                             $newsletterText .= " (" . $performers . ")";
                         }if($description != ""){
                             $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr></tbody>";
+                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
                     }
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
