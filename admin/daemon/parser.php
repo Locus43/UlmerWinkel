@@ -10,27 +10,30 @@ parser::getEvents();
 class parser{
     public static function getEvents(){
         //prepare data for newsletter
-        $jsonFile =  file_get_contents("../../include/tmp/tmp.json");
+        $jsonFile =  file_get_contents("../../include/tmp/eventData.json");
         $mainData = json_decode($jsonFile, true);
-        
+
+        //developing section; only for debug
+        //var_dump($mainData[0][2]['_event_TITLE']);
+
         //combine topics and data
-        for ($i=1; $i<= 10; $i++){
+        for ($i=0; $i<= 10; $i++){
             switch ($i){
-                case 1:
+                case 0:
                     $data = $mainData[$i];
                     $newsletterText = '';
                     $topic = "gottesdienste";
 
                     foreach ($data as $data){
-                        $month = $data['month'];
-                        $time  = $data['time'];
-                        $date = $data['date'];
-                        $title = $data['title'];
-                        $performers = $data['performers'];
-                        $description = $data['description'];
-                        $location = $data['location'];
-                        $locationCity = $data['locationCity'];
-                        $email = $data['email'];
+                        $month = $data['START_MONAT'];
+                        $time  = $data['START_UHRZEIT'];
+                        $date = $data['DATUM'];
+                        $title = $data['_event_TITLE'];
+                        $performers = $data['_person_NAME'];
+                        $description = $data['_event_LONG_DESCRIPTION'];
+                        $location = $data['_place_NAME'];
+                        $locationCity = $data['_place_CITY'];
+                        $email = $data['_user_EMAIL'];
 
                         if($month == ""){
                             $month = "";
@@ -69,7 +72,7 @@ class parser{
                     }
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
-                case 2:
+                case 1:
                     $data = $mainData[$i];
                     $newsletterText = '';
                     $topic = "gruppen";
@@ -123,7 +126,7 @@ class parser{
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
                     break;
-                case 3:
+                case 2:
                     $data = $mainData[$i];
                     $newsletterText = '';
                     $topic = "fortbildungen";
@@ -177,7 +180,7 @@ class parser{
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
                     break;
-                case 4:
+                case 3:
                     $data = $mainData[$i];
                     $newsletterText = '';
                     $topic = "konzerte";
@@ -231,7 +234,7 @@ class parser{
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
                     break;
-                case 5:
+                case 4:
                     $data = $mainData[$i];
                     $newsletterText = '';
                     $topic = "freizeiten";
@@ -285,7 +288,7 @@ class parser{
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
                     break;
-                case 6:
+                case 5:
                     $data = $mainData[$i];
                     $newsletterText = '';
                     $topic = "ausstellungen";
@@ -339,7 +342,7 @@ class parser{
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
                     break;
-                case 7:
+                case 6:
                     $data = $mainData[$i];
                     $newsletterText = '';
                     $topic = "feste";
@@ -393,7 +396,7 @@ class parser{
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
                     break;
-                case 8:
+                case 7:
                     $data = $mainData[$i];
                     $newsletterText = '';
                     $topic = "sport";
@@ -447,7 +450,7 @@ class parser{
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
                     break;
-                case 9:
+                case 8:
                     $data = $mainData[$i];
                     $newsletterText = '';
                     $topic = "sonstiges";
@@ -501,7 +504,7 @@ class parser{
                     $newsletterText .= "</tbody></table>";
                     parser::mailPreparation($topic, $newsletterText);
                     break;
-                case 10:
+                case 9:
                     $data = $mainData[$i];
                     $newsletterText = '';
                     $topic = "meditation";
