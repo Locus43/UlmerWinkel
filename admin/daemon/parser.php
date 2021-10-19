@@ -1,6 +1,6 @@
 <?php
 //file to get data from json and parse it into right mail format
-//ToDo: write to log file if operation wether was successful or not
+//ToDo: write to log file if operation wether was successful or not; adapt parsing of json to new json format
 
 require_once("../../include/db.php");
 include_once("../../include/mailDeamon.php");
