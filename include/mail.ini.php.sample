@@ -1,0 +1,15 @@
+;<?php die();?>
+[submit]
+submitSubject = ""
+submitText = "Hallo, <br>Vielen Dank für Ihre Registrierung für unseren Newsletter. Um Ihre Email-Adresse zu bestätigen, klicken Sie bitte <a href=\"{{BASE_URL}}/submit/index.php?id={{SUBMIT_ID}}\">hier</a>.<br>Sollten Sie diesen Newsletter nicht bestellt haben, ignoerieren oder löschen Sie bitte diese Email.<br>Bitte antworten Sie nicht auf diese Email."
+
+[newsletter]
+newsletterSubject = "Your-Name - Newsletter | {{TOPIC}}"
+newsletterText = "
+<style>
+//Style goes here. Unless u have style
+</style>
+<body>
+//All your body goes here. Everything u wanna have displayed in ur email. But be careful: You REAAAAALLY need to have your {{BODY}} tag placed at the spot, where the generated newsletter text should be diplayed!
+</body>
+"
