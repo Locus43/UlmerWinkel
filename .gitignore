@@ -7,3 +7,4 @@ config.*
 .gitignore.
 .idea/workspace.xml
 releases/
+*.old
