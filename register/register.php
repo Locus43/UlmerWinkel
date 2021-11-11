@@ -39,7 +39,7 @@ if($valid == "true"){
                 $query = "update topics set ausstellungen = '1' where uid like '" . $id . "'";
                 $result = db::getInstance()->dbquery($query);
             }if($key == '7'){
-                $query = "update topics set feiern = '1' where uid like '" . $id . "'";
+                $query = "update topics set feste = '1' where uid like '" . $id . "'";
                 $result = db::getInstance()->dbquery($query);
             }if($key == '8'){
                 $query = "update topics set sport = '1' where uid like '" . $id . "'";

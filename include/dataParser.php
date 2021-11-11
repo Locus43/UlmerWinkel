@@ -6,7 +6,7 @@ require_once("db.php");
 include_once("mailDeamon.php");
 
 class dataParser{
-    public static function getEvents(){
+    public function getEvents(){
         //prepare data for newsletter
         $config = parse_ini_file('config.ini.php');
         $jsonPath = $config['jsonPath'];
@@ -686,7 +686,7 @@ class dataParser{
         }
 
 
-    }private static function getUser($topic){
+    }private function getUser($topic){
         $users = array();
         $query = "select " . $topic . ", email as email from topics inner join newsletter on topics.uid = newsletter.id having " . $topic . " = '1'";
         $result = db::getInstance()->get_result($query);
@@ -696,7 +696,7 @@ class dataParser{
             }
         }
         return $users;
-    }private static function mailPreparation($topic, $newsletter){
+    }private function mailPreparation($topic, $newsletter){
         $config = parse_ini_file("../../include/mail.ini.php"); //config for mail mask
         $subject = $config['newsletterSubject'];
         $textMask = $config['newsletterText'];
@@ -710,9 +710,9 @@ class dataParser{
 
         foreach ($users as $user){
             $uid = mailDeamon::getId($user); //get uid for 'newsletter-unsubscribe-link'
-            $newsletterText = str_replace("{{UNSUBSCRIBE_LINK}}", "$baseUrl/unsubscribe/index.php?id=$uid", "$newsletterText");
+            $newsletterTextUser = str_replace("{{UNSUBSCRIBE_LINK}}", "$baseUrl/unsubscribe/index.php?id=$uid", "$newsletterText");
 
-            mailDeamon::sendNewsletter($user, $newsletterText, $subject);
+            mailDeamon::sendNewsletter($user, $newsletterTextUser, $subject);
         }
     }
 }

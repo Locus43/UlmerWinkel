@@ -1,7 +1,7 @@
 <?php
 
 class dataFetcher{
-   public static function fetchData(){
+   public function fetchData(){
        $config = parse_ini_file('config.ini.php');
        $baseUrl = $config['url'];
        $jsonPath = $config['jsonPath'];

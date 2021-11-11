@@ -1,3 +1,5 @@
+<!--ToDo: Check if at least one topic was chosen-->
+
 <!DOCTYPE HTML>
 <!--
 	Hyperspace by HTML5 UP
@@ -72,7 +74,7 @@
                     <input type="checkbox" id="10" name="topic[]" value="10"><label for="10">Fortbildungen/Seminare</label>
 
                     <hr>
-                    <p>Durch drücken auf "Registrieren", bestätigen Sie, dass Sie mit unseren <a href="">Datenschutzbestimmungen</a> einverstanden sind.</p>
+                    <p>Durch klicken auf "Registrieren", bestätigen Sie, dass Sie mit unseren <a href="">Datenschutzbestimmungen</a> einverstanden sind.</p>
                     <button type="submit" class="button">Registrieren</button>
                 </form>
             </p>

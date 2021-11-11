@@ -2,7 +2,7 @@
 require_once("db.php");
 
 class validateEmail{
-    public static function validate($email){
+    public function validate($email){
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
         $duplicate = validateEmail::checkForDuplicates($email);
         if(filter_var($email, FILTER_VALIDATE_EMAIL) && $duplicate == false){
@@ -11,7 +11,7 @@ class validateEmail{
             return false;
         }
     }
-    private static function checkForDuplicates($email){
+    private function checkForDuplicates($email){
             $query = "select email from newsletter";
             $result = db::getInstance()->get_result($query);
             if(is_array($result)){

@@ -4,7 +4,7 @@ require_once("db.php");
 class mailDeamon{
 
 
-    public static function sendRegisterMail($email){
+    public function sendRegisterMail($email){
         $mailMask = parse_ini_file("mail.ini.php");
         $config = parse_ini_file('config.ini.php');
         $base_url = $config['base_url'];
@@ -24,12 +24,12 @@ class mailDeamon{
         );
         mail($receiver, $subject, $text, $header);
     }
-    public static function getID($email){
+    public function getID($email){
         $query = "select id from newsletter where email = '" . $email . "'";
         $result = db::getInstance()->get_result($query);
         return $result[0][0];
     }
-    public static function sendNewsletter($email, $text, $subject){
+    public function sendNewsletter($email, $text, $subject){
         $receiver = $email;
         $mailConfig = parse_ini_file('config.ini.php');
         $sender = $mailConfig['sender'];

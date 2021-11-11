@@ -7,7 +7,7 @@
         private $db;
         private $host;
 
-        public static function getInstance(){
+        public function getInstance(){
             if(!self::$instance instanceof self){
                 self::$instance = new self;
             }
