@@ -93,7 +93,7 @@ $characters = json_decode($data);
 <footer id="footer" class="wrapper alt">
     <div class="inner">
         <ul class="menu">
-            <li>&copy; Evangelische Kirchengemeinde Elchingen. All rights reserved.</li><li><a href="/kirche/impressum.php">Impressum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li><div align="right">Version <?php echo $characters->version; ?></div></li>
+            <li>&copy; Ulmer-Winkel. All rights reserved.</li><li><a href="../../impressum.php">Impressum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li><div align="right">Version <?php echo $characters->version; ?></div></li>
         </ul>
     </div>
 </footer>
