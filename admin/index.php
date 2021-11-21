@@ -1,6 +1,11 @@
 <?php
 require_once("../include/db.php");
 
+session_start();
+if(!isset($_SESSION['userid'])){
+    die("Dieser Bereich ist nur für angemeldete Nutzer sichtbar. Bitte melden Sie sich an!");
+}
+
 $query = "select email from newsletter where is_confirmed='1'";
 $result = db::getInstance()->get_result($query);
 
