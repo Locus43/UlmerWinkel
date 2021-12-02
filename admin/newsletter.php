@@ -19,7 +19,7 @@ $result = db::getInstance()->get_result($query);
 -->
 <html>
 <head>
-    <title>UlmerWinkel - Newsletter | AdminPage</title>
+    <title>UlmerWinkel - AdminPage | Newsletter Administration</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="assets/css/main.css" />
@@ -42,8 +42,8 @@ $result = db::getInstance()->get_result($query);
     <a href="ulmer-winkel.de" class="title">Ulmer Winkel - Newsletter</a>
     <nav>
         <ul>
-            <li><a href="">Home</a></li>
-            <li><a href="index.php" class="active">Start</a></li>
+            <li><a href="index.php">Home</a></li>
+            <li><a href="" class="active">Newsletter</a></li>
             <li><a href="login/index.php?logout">Logout</a></li>
         </ul>
     </nav>
@@ -55,12 +55,31 @@ $result = db::getInstance()->get_result($query);
     <!-- Main -->
     <section id="main" class="wrapper">
         <div class="inner">
-            <h1 class="major">Start</h1>
-            <p>Herzlich Willkommen auf der Admin-Page vom Ulmer-Winkel Newsletter. Hier haben Sie verschiedenste Möglichkeiten, das Newslettersystem zu administrieren.</p><br>
-            <center>
-                <button type="" class="button"><a href="newsletter.php">Newsletter verwalten</a></button><br><br>
-                <button type="" class="button"><a href="users.php">Userverwaltung</a></button>
-            </center>
+            <h1 class="major">Newsletter</h1>
+            <p>Herzlich Willkommen auf der Admin-Page vom Ulmer-Winkel Newsletter. Hier können Sie einen neuen Newsletter verfassen und entweder an alle senden, oder aber auch an einzelne Personen. Wählen Sie hierzu bitte die
+                entsprechende Option im Drop-Down Menü.
+                </p>
+            <p>
+                <form action="bakeCake.php">
+                    <p>Hier können Sie den Newsletter verfassen. HTML-Tags werden unterstützt. Eine entsprechende Liste gibt es <a href="https://www.mediaevent.de/html/html5-tags.html">hier.</a></p>
+                    <hr>
+                    <select name="emailOption">
+                        <option value="all">Alle</option>
+                        <?php
+                            for($i = 0; $i < count($result); $i++){
+                              echo "<option value='" . $result[$i][0] . "'>" . $result[$i][0] . "</option>";
+                             }
+                        ?>
+                    </select>
+                    <br>
+                    <br>
+                    <input type="text" id="subject" name="subject" placeholder="Betreff" required>
+                    <br>
+                    <textarea id="mailText" name="mailText" placeholder="Newsletter" required></textarea>
+                    <hr>
+                    <button type="submit" class="button">Abschicken</button>
+                </form>
+            </p>
         </div>
     </section>
 </div>

@@ -19,7 +19,7 @@ $result = db::getInstance()->get_result($query);
 -->
 <html>
 <head>
-    <title>UlmerWinkel - Newsletter | AdminPage</title>
+    <title>UlmerWinkel - AdminPage | Nutzerverwaltung</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="assets/css/main.css" />
@@ -39,11 +39,11 @@ $result = db::getInstance()->get_result($query);
 
 <!-- Header -->
 <header id="header">
-    <a href="ulmer-winkel.de" class="title">Ulmer Winkel - Newsletter</a>
+    <a href="ulmer-winkel.de" class="title">Ulmer Winkel - Nutzerverwaltung</a>
     <nav>
         <ul>
-            <li><a href="">Home</a></li>
-            <li><a href="index.php" class="active">Start</a></li>
+            <li><a href="index.php">Home</a></li>
+            <li><a href="" class="active">Start</a></li>
             <li><a href="login/index.php?logout">Logout</a></li>
         </ul>
     </nav>
@@ -55,12 +55,8 @@ $result = db::getInstance()->get_result($query);
     <!-- Main -->
     <section id="main" class="wrapper">
         <div class="inner">
-            <h1 class="major">Start</h1>
-            <p>Herzlich Willkommen auf der Admin-Page vom Ulmer-Winkel Newsletter. Hier haben Sie verschiedenste Möglichkeiten, das Newslettersystem zu administrieren.</p><br>
-            <center>
-                <button type="" class="button"><a href="newsletter.php">Newsletter verwalten</a></button><br><br>
-                <button type="" class="button"><a href="users.php">Userverwaltung</a></button>
-            </center>
+            <h1 class="major">Nutzerverwaltung</h1>
+            <p>Hier können Sie neue Nutzer anlegen, bearbeiten, oder löschen.</p><br>
         </div>
     </section>
 </div>
