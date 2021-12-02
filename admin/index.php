@@ -3,7 +3,7 @@ require_once("../include/db.php");
 
 session_start();
 if(!isset($_SESSION['userid'])){
-    die("Dieser Bereich ist nur für angemeldete Nutzer sichtbar. Bitte melden Sie sich an!");
+    header("Location: login/index.php");
 }
 
 $query = "select email from newsletter where is_confirmed='1'";
@@ -44,6 +44,7 @@ $result = db::getInstance()->get_result($query);
         <ul>
             <li><a href="">Home</a></li>
             <li><a href="index.php" class="active">Newsletter</a></li>
+            <li><a href="login/index.php?logout">Logout</a></li>
         </ul>
     </nav>
 </header>
