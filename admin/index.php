@@ -9,6 +9,19 @@ if(!isset($_SESSION['userid'])){
 $query = "select email from newsletter where is_confirmed='1'";
 $result = db::getInstance()->get_result($query);
 
+$message = "";
+
+##################################### do not edit/write above this line #####################################
+
+/* check if update is available */
+$config = parse_ini_file('../include/config.ini.php');
+$versionOnline = $config['version_url'];
+$currentVersion = file_get_contents("../include/version.vs");
+$data = file_get_contents($versionOnline);
+
+if($versionOnline != $currentVersion){
+    $message = "<div class=\"info\"><span class=\"closebtn\" onclick=\"this.parentElement.style.display='none';\">&times;</span>Es ist ein neues Update des Newsletters vorhanden. Bitte Updaten.<br>Neue Version: " . $versionOnline . " - Aktuelle Version: " . $currentVersion . "<span class=\"identifier\"><right> - ID: userIdentifier</right></span></div>";
+}
 ?>
 
 <!DOCTYPE HTML>
@@ -56,6 +69,7 @@ $result = db::getInstance()->get_result($query);
     <section id="main" class="wrapper">
         <div class="inner">
             <h1 class="major">Start</h1>
+            <p><? echo $message; ?></p>
             <p>Herzlich Willkommen auf der Admin-Page vom Ulmer-Winkel Newsletter. Hier haben Sie verschiedenste Möglichkeiten, das Newslettersystem zu administrieren.</p><br>
             <center>
                 <button type="" class="button"><a href="newsletter.php">Newsletter verwalten</a></button><br><br>

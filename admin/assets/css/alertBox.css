@@ -1,0 +1,39 @@
+/*
+	Author: Jan Wehrheim
+	Copyright 2019																
+*/
+.alert{
+	padding: 20px; 
+	background-color: red; 
+	color: white; 
+	margin-bottom: 15px; 
+	border-radius: 15px; 
+}
+.closebtn{
+	margin-left: 15px; 
+	color: white; 
+	font-weight: bold; 
+	float: right; 
+	font-size: 22px; 
+	line-height: 20px; 
+	cursor: pointer; 
+	transition: 0.3s; 
+}
+.closebtn:hover{
+	color: black; 
+}.info{
+	padding: 20px; 
+	background-color: limegreen; 
+	color: white; 
+	margin-bottom: 15px; 
+	border-radius: 15px;
+}.news{
+	padding: 20px; 
+	background-color: deepskyblue; 
+	color: white; 
+	margin-bottom: 15px; 
+	border-radius: 15px;
+}.identifier{
+	font-size: 16px; 
+	 
+}
