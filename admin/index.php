@@ -17,10 +17,10 @@ $message = "";
 $config = parse_ini_file('../include/config.ini.php');
 $versionOnline = $config['version_url'];
 $currentVersion = file_get_contents("../include/version.vs");
-$data = file_get_contents($versionOnline);
+$versionOnline = file_get_contents($versionOnline);
 
 if($versionOnline != $currentVersion){
-    $message = "<div class=\"info\"><span class=\"closebtn\" onclick=\"this.parentElement.style.display='none';\">&times;</span>Es ist ein neues Update des Newsletters vorhanden. Bitte Updaten.<br>Neue Version: " . $versionOnline . " - Aktuelle Version: " . $currentVersion . "<span class=\"identifier\"><right> - ID: userIdentifier</right></span></div>";
+    $message = "<div class=\"info\"><span class=\"closebtn\" onclick=\"this.parentElement.style.display='none';\">&times;</span>Es ist ein neues Update des Newsletters vorhanden. Bitte Updaten. Neue Version: <b><i>" . $versionOnline . "</i></b> - Aktuelle Version: <b><i>" . $currentVersion . "</i></b><span class=\"identifier\"><right> - ID: updateNotifier</right></span></div>";
 }
 ?>
 
@@ -37,6 +37,7 @@ if($versionOnline != $currentVersion){
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="assets/css/main.css" />
     <link href="assets/css/lightbox.css" rel="stylesheet">
+    <link href="assets/css/alertBox.css" rel="stylesheet">
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 
     <!-- Scripts -->
@@ -69,7 +70,7 @@ if($versionOnline != $currentVersion){
     <section id="main" class="wrapper">
         <div class="inner">
             <h1 class="major">Start</h1>
-            <p><? echo $message; ?></p>
+            <p><?php echo $message; ?></p>
             <p>Herzlich Willkommen auf der Admin-Page vom Ulmer-Winkel Newsletter. Hier haben Sie verschiedenste Möglichkeiten, das Newslettersystem zu administrieren.</p><br>
             <center>
                 <button type="" class="button"><a href="newsletter.php">Newsletter verwalten</a></button><br><br>
@@ -79,17 +80,11 @@ if($versionOnline != $currentVersion){
     </section>
 </div>
 
-<?php
-$url = 'http://wehrheim.eu:30/info.json';
-$data = file_get_contents($url);
-$characters = json_decode($data);
-?>
-
 <!-- Footer -->
 <footer id="footer" class="wrapper alt">
     <div class="inner">
         <ul class="menu">
-            <li>&copy; Ulmer-Winkel. All rights reserved.</li><li><a href="../../impressum.php">Impressum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li><div align="right">Version <?php echo $characters->version; ?></div></li>
+            <li>&copy; Ulmer-Winkel. All rights reserved.</li><li><a href="../../impressum.php">Impressum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li><div align="right">Version <?php echo $currentVersion; ?></div></li>
         </ul>
     </div>
 </footer>
