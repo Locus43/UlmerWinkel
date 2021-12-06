@@ -85,16 +85,14 @@ $result = db::getInstance()->get_result($query);
 </div>
 
 <?php
-$url = 'http://wehrheim.eu:30/info.json';
-$data = file_get_contents($url);
-$characters = json_decode($data);
+$currentVersion = file_get_contents("../include/version.vs");
 ?>
 
 <!-- Footer -->
 <footer id="footer" class="wrapper alt">
     <div class="inner">
         <ul class="menu">
-            <li>&copy; Ulmer-Winkel. All rights reserved.</li><li><a href="../../impressum.php">Impressum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li><div align="right">Version <?php echo $characters->version; ?></div></li>
+            <li>&copy; Ulmer-Winkel. All rights reserved.</li><li><a href="../../impressum.php">Impressum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li><div align="right">Version <?php echo $currentVersion; ?></div></li>
         </ul>
     </div>
 </footer>

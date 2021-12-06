@@ -8,3 +8,4 @@ config.*
 .idea/workspace.xml
 releases/
 *.old
+*.inii.*
