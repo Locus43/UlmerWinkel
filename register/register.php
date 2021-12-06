@@ -59,6 +59,6 @@ if($valid == "true"){
     }
 }else{
     echo "Die Emailadresse ist entweder nicht gültig oder sie wurde bereits für den Newsletter registriert. Bitte überprüfen Sie Ihre Eingabe. Sollte Sie die Emailadresse schon registriert haben, bestätigen Sie bitte diese Emailadresse. Sie haben dazu eine Email von uns bekommen.<br>
-          Wenn die Email nicht in Ihrem Postfach ist, kontrollieren Sie bitte Ihren Spam-Ordner.";
+          Wenn die Email nicht in Ihrem Postfach ist, kontrollieren Sie bitte Ihren Spam-Ordner. ";
 }
 ?>
