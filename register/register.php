@@ -58,7 +58,7 @@ if($valid == "true"){
         echo "Ein technischer Fehler ist aufgetreten. Bitte versuchen Sie es erneut. Sollte dieser Fehler erneut auftreten, schreiben Sie bitte eine Email an: <a href='mailto:jan@wehrheim.eu'>jan(at)wehrheim.eu</a>";
     }
 }else{
-    echo "Die Emailadresse ist entweder nicht gültig oder sie wurde bereits für den Newsletter registriert. Bitte überprüfen Sie Ihre Eingabe. Sollte Sie die Emailadresse schon registriert haben, bestätigen Sie bitte diese Emailadresse. Sie haben dazu eine Email von uns bekommen.<br>
+    echo "Die Emailadresse ist entweder nicht gültig oder sie wurde bereits für den Newsletter registriert. Bitte überprüfen Sie Ihre Eingabe. Sollten Sie die Emailadresse schon registriert haben, bestätigen Sie bitte diese Emailadresse. Sie haben dazu eine Email von uns bekommen.<br>
           Wenn die Email nicht in Ihrem Postfach ist, kontrollieren Sie bitte Ihren Spam-Ordner.";
 }
 ?>
