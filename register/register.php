@@ -13,6 +13,7 @@ $valid = validateEmail::validate($email);
 
 if($valid == "true"){
     $id = (new generateId)->generateId();
+    //$id = generateId::generateId();
     $query = "INSERT INTO newsletter (id, email) values('" . $id . "', '" . $email . "')";
     $result = db::getInstance()->dbquery($query);
     $query = "INSERT INTO topics (uid) values('" . $id . "')";
