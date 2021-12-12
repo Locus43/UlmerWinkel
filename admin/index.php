@@ -84,7 +84,7 @@ if($versionOnline != $currentVersion){
 <footer id="footer" class="wrapper alt">
     <div class="inner">
         <ul class="menu">
-            <li>&copy; Ulmer-Winkel. All rights reserved.</li><li><a href="../../impressum.php">Impressum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li><div align="right">Version <?php echo $currentVersion; ?></div></li>
+            <li>&copy; Ulmer-Winkel. All rights reserved.</li><li><a href="../../impressum.php">Impressum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li><div align="right">Version <a href="https://github.com/Locus43/UlmerWinkel/releases"><?php echo $currentVersion; ?></a></div></li>
         </ul>
     </div>
 </footer>
