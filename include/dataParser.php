@@ -13,6 +13,10 @@ class dataParser{
         $jsonFile =  file_get_contents("$jsonPath");
         $mainData = json_decode($jsonFile, true);
 
+        //get current month
+        setlocale('de_DE');
+        $currentMonth = date('m');
+
         //initialize some vars
         $oldMonth = "";
 
@@ -27,8 +31,36 @@ class dataParser{
                     if($data == null){
                         break;
                     }
-                    if(!array_key_exists('_event_STATUS', $data)){
-                        foreach ($data as $data){
+                    if($data['START_MONAT'] == $currentMonth){
+                        if(!array_key_exists('_event_STATUS', $data)){
+                            foreach ($data as $data){
+                                $month = $data['START_MONAT'];
+                                $time  = $data['START_UHRZEIT'];
+                                $date = $data['DATUM'];
+                                $title = $data['_event_TITLE'];
+                                $performers = $data['_person_NAME'];
+                                $description = $data['_event_LONG_DESCRIPTION'];
+                                $location = $data['_place_NAME'];
+                                $locationCity = $data['_place_CITY'];
+                                $email = $data['_user_EMAIL'];
+
+                                $newsletterText .= "<table><tbody>";
+                                if($month != $oldMonth){
+                                    $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
+                                }$newsletterText .= "<tr><td><strong>";
+                                if ($time == "00.00"){
+                                    $newsletterText .= $date . " Ganztägig ";
+                                }if ($time != "00.00"){
+                                    $newsletterText .= $date;
+                                }$newsletterText .= "</strong> | " . $title;
+                                if(is_array($performers) != true){
+                                    $newsletterText .= " (" . $performers . ")";
+                                }if(is_array($description) != true){
+                                    $newsletterText .= " | " . $description;
+                                }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
+                                $oldMonth = $month;
+                            }
+                        }else{
                             $month = $data['START_MONAT'];
                             $time  = $data['START_UHRZEIT'];
                             $date = $data['DATUM'];
@@ -55,32 +87,6 @@ class dataParser{
                             }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
                             $oldMonth = $month;
                         }
-                    }else{
-                        $month = $data['START_MONAT'];
-                        $time  = $data['START_UHRZEIT'];
-                        $date = $data['DATUM'];
-                        $title = $data['_event_TITLE'];
-                        $performers = $data['_person_NAME'];
-                        $description = $data['_event_LONG_DESCRIPTION'];
-                        $location = $data['_place_NAME'];
-                        $locationCity = $data['_place_CITY'];
-                        $email = $data['_user_EMAIL'];
-
-                        $newsletterText .= "<table><tbody>";
-                        if($month != $oldMonth){
-                            $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                        }$newsletterText .= "<tr><td><strong>";
-                        if ($time == "00.00"){
-                            $newsletterText .= $date . " Ganztägig ";
-                        }if ($time != "00.00"){
-                            $newsletterText .= $date;
-                        }$newsletterText .= "</strong> | " . $title;
-                        if(is_array($performers) != true){
-                            $newsletterText .= " (" . $performers . ")";
-                        }if(is_array($description) != true){
-                            $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                        $oldMonth = $month;
                     }
 
                     $newsletterText .= "</tbody></table>";
