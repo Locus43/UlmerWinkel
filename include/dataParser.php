@@ -46,7 +46,7 @@ class dataParser{
                                 $email = $data['_user_EMAIL'];
 
                                 $newsletterText .= "<table><tbody>";
-                                if($month != $oldMonth){
+                                if($oldMonth == ""){
                                     $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                                 }
                                 $newsletterText .= "<tr><td><strong>";
@@ -94,7 +94,7 @@ class dataParser{
                                 $email = $data['_user_EMAIL'];
 
                                 $newsletterText .= "<table><tbody>";
-                                if($month != $oldMonth){
+                                if($oldMonth == ""){
                                     $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                                 }
                                 $newsletterText .= "<tr><td><strong>";
@@ -140,7 +140,7 @@ class dataParser{
                                 $email = $data['_user_EMAIL'];
 
                                 $newsletterText .= "<table><tbody>";
-                                if($month != $oldMonth){
+                                if($oldMonth == ""){
                                     $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                                 }
                                 $newsletterText .= "<tr><td><strong>";
@@ -186,7 +186,7 @@ class dataParser{
                                 $email = $data['_user_EMAIL'];
 
                                 $newsletterText .= "<table><tbody>";
-                                if($month != $oldMonth){
+                                if($oldMonth == ""){
                                     $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                                 }
                                 $newsletterText .= "<tr><td><strong>";
@@ -232,7 +232,7 @@ class dataParser{
                                 $email = $data['_user_EMAIL'];
 
                                 $newsletterText .= "<table><tbody>";
-                                if($month != $oldMonth){
+                                if($oldMonth == ""){
                                     $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                                 }
                                 $newsletterText .= "<tr><td><strong>";
@@ -278,7 +278,7 @@ class dataParser{
                                 $email = $data['_user_EMAIL'];
 
                                 $newsletterText .= "<table><tbody>";
-                                if($month != $oldMonth){
+                                if($oldMonth == ""){
                                     $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                                 }
                                 $newsletterText .= "<tr><td><strong>";
@@ -324,7 +324,7 @@ class dataParser{
                                 $email = $data['_user_EMAIL'];
 
                                 $newsletterText .= "<table><tbody>";
-                                if($month != $oldMonth){
+                                if($oldMonth == ""){
                                     $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                                 }
                                 $newsletterText .= "<tr><td><strong>";
@@ -370,7 +370,7 @@ class dataParser{
                                 $email = $data['_user_EMAIL'];
 
                                 $newsletterText .= "<table><tbody>";
-                                if($month != $oldMonth){
+                                if($oldMonth == ""){
                                     $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                                 }
                                 $newsletterText .= "<tr><td><strong>";
@@ -416,7 +416,7 @@ class dataParser{
                                 $email = $data['_user_EMAIL'];
 
                                 $newsletterText .= "<table><tbody>";
-                                if($month != $oldMonth){
+                                if($oldMonth == ""){
                                     $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                                 }
                                 $newsletterText .= "<tr><td><strong>";
@@ -462,7 +462,7 @@ class dataParser{
                                 $email = $data['_user_EMAIL'];
 
                                 $newsletterText .= "<table><tbody>";
-                                if($month != $oldMonth){
+                                if($oldMonth == ""){
                                     $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                                 }
                                 $newsletterText .= "<tr><td><strong>";
