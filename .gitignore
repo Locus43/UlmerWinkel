@@ -9,3 +9,5 @@ config.*
 releases/
 *.old
 *.inii.*
+.DS_Store
+admin/assets/css/images/intro.svg
