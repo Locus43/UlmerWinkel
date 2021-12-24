@@ -1,9 +1,10 @@
 <?php
 //file to get data from json and parse it into right mail format
-//ToDo: write to log file if operation wether was successful or not
+//ToDo: fix error that month is displayed in every column -> get this oldMonht function back!!!; write to log file if operation wether was successful or not
 
 require_once("db.php");
 include_once("mailDeamon.php");
+include_once("translateMonth.php");
 
 class dataParser{
     public function getEvents(){
@@ -14,11 +15,11 @@ class dataParser{
         $mainData = json_decode($jsonFile, true);
 
         //get current month
-        setlocale('de_DE');
         $currentMonth = date('m');
+        $month = translateMonth::translate($currentMonth);
 
         //initialize some vars
-        $oldMonth = "";
+        $oldMonth = ""; 
 
         //combine topics and data
         for ($i=0; $i<=10; $i++){
@@ -31,11 +32,11 @@ class dataParser{
                     if($data == null){
                         break;
                     }
-                    if($data['START_MONAT'] == $currentMonth){
-                        if(!array_key_exists('_event_STATUS', $data)){
-                            foreach ($data as $data){
+                    if(!array_key_exists('_event_STATUS', $data)){
+                        foreach ($data as $data) {
+                            if ($data['START_MONAT'] == $month) {
                                 $month = $data['START_MONAT'];
-                                $time  = $data['START_UHRZEIT'];
+                                $time = $data['START_UHRZEIT'];
                                 $date = $data['DATUM'];
                                 $title = $data['_event_TITLE'];
                                 $performers = $data['_person_NAME'];
@@ -47,51 +48,30 @@ class dataParser{
                                 $newsletterText .= "<table><tbody>";
                                 if($month != $oldMonth){
                                     $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                                }$newsletterText .= "<tr><td><strong>";
-                                if ($time == "00.00"){
+                                }
+                                $newsletterText .= "<tr><td><strong>";
+                                if ($time == "00.00") {
                                     $newsletterText .= $date . " Ganztägig ";
-                                }if ($time != "00.00"){
+                                }
+                                if ($time != "00.00") {
                                     $newsletterText .= $date;
-                                }$newsletterText .= "</strong> | " . $title;
-                                if(is_array($performers) != true){
+                                }
+                                $newsletterText .= "</strong> | " . $title;
+                                if (is_array($performers) != true) {
                                     $newsletterText .= " (" . $performers . ")";
-                                }if(is_array($description) != true){
+                                }
+                                if (is_array($description) != true) {
                                     $newsletterText .= " | " . $description;
-                                }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                                $oldMonth = $month;
-                            }
-                        }else{
-                            $month = $data['START_MONAT'];
-                            $time  = $data['START_UHRZEIT'];
-                            $date = $data['DATUM'];
-                            $title = $data['_event_TITLE'];
-                            $performers = $data['_person_NAME'];
-                            $description = $data['_event_LONG_DESCRIPTION'];
-                            $location = $data['_place_NAME'];
-                            $locationCity = $data['_place_CITY'];
-                            $email = $data['_user_EMAIL'];
-
-                            $newsletterText .= "<table><tbody>";
-                            if($month != $oldMonth){
-                                $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                            }$newsletterText .= "<tr><td><strong>";
-                            if ($time == "00.00"){
-                                $newsletterText .= $date . " Ganztägig ";
-                            }if ($time != "00.00"){
-                                $newsletterText .= $date;
-                            }$newsletterText .= "</strong> | " . $title;
-                            if(is_array($performers) != true){
-                                $newsletterText .= " (" . $performers . ")";
-                            }if(is_array($description) != true){
-                                $newsletterText .= " | " . $description;
-                            }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                            $oldMonth = $month;
+                                }
+                                $newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
+                                $newsletterText .= "</tbody></table>";
+                            }else{
+                                $newsletterText = "";
+                            }$oldMonth = $month;
+                        }if($newsletterText != ""){
+                            dataParser::mailPreparation($topic, $newsletterText);
                         }
-                    }
-
-                    $newsletterText .= "</tbody></table>";
-                    dataParser::mailPreparation($topic, $newsletterText);
-                    break;
+                    }break;
                 case 1:
                     $data = $mainData[$i];
                     $newsletterText = '';
@@ -101,63 +81,43 @@ class dataParser{
                         break;
                     }
                     if(!array_key_exists('_event_STATUS', $data)){
-                        foreach ($data as $data){
-                            $month = $data['START_MONAT'];
-                            $time  = $data['START_UHRZEIT'];
-                            $date = $data['DATUM'];
-                            $title = $data['_event_TITLE'];
-                            $performers = $data['_person_NAME'];
-                            $description = $data['_event_LONG_DESCRIPTION'];
-                            $location = $data['_place_NAME'];
-                            $locationCity = $data['_place_CITY'];
-                            $email = $data['_user_EMAIL'];
+                        foreach ($data as $data) {
+                            if ($data['START_MONAT'] == $month) {
+                                $month = $data['START_MONAT'];
+                                $time = $data['START_UHRZEIT'];
+                                $date = $data['DATUM'];
+                                $title = $data['_event_TITLE'];
+                                $performers = $data['_person_NAME'];
+                                $description = $data['_event_LONG_DESCRIPTION'];
+                                $location = $data['_place_NAME'];
+                                $locationCity = $data['_place_CITY'];
+                                $email = $data['_user_EMAIL'];
 
-                            $newsletterText .= "<table><tbody>";
-                            if($month != $oldMonth){
-                                $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                            }$newsletterText .= "<tr><td><strong>";
-                            if ($time == "00.00"){
-                                $newsletterText .= $date . " Ganztägig ";
-                            }if ($time != "00.00"){
-                                $newsletterText .= $date;
-                            }$newsletterText .= "</strong> | " . $title;
-                            if(is_array($performers) != true){
-                                $newsletterText .= " (" . $performers . ")";
-                            }if(is_array($description) != true){
-                                $newsletterText .= " | " . $description;
-                            }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                            $oldMonth = $month;
+                                $newsletterText .= "<table><tbody>";
+                                if($month != $oldMonth){
+                                    $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
+                                }
+                                $newsletterText .= "<tr><td><strong>";
+                                if ($time == "00.00") {
+                                    $newsletterText .= $date . " Ganztägig ";
+                                }
+                                if ($time != "00.00") {
+                                    $newsletterText .= $date;
+                                }
+                                $newsletterText .= "</strong> | " . $title;
+                                if (is_array($performers) != true) {
+                                    $newsletterText .= " (" . $performers . ")";
+                                }
+                                if (is_array($description) != true) {
+                                    $newsletterText .= " | " . $description;
+                                }
+                                $newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
+                                $newsletterText .= "</tbody></table>";
+                            }$oldMonth = $month;
+                        }if($newsletterText != ""){
+                            dataParser::mailPreparation($topic, $newsletterText);
                         }
-                    }else{
-                        $month = $data['START_MONAT'];
-                        $time  = $data['START_UHRZEIT'];
-                        $date = $data['DATUM'];
-                        $title = $data['_event_TITLE'];
-                        $performers = $data['_person_NAME'];
-                        $description = $data['_event_LONG_DESCRIPTION'];
-                        $location = $data['_place_NAME'];
-                        $locationCity = $data['_place_CITY'];
-                        $email = $data['_user_EMAIL'];
-
-                        $newsletterText .= "<table><tbody>";
-                        if($month != $oldMonth){
-                            $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                        }$newsletterText .= "<tr><td><strong>";
-                        if ($time == "00.00"){
-                            $newsletterText .= $date . " Ganztägig ";
-                        }if ($time != "00.00"){
-                            $newsletterText .= $date;
-                        }$newsletterText .= "</strong> | " . $title;
-                        if(is_array($performers) != true){
-                            $newsletterText .= " (" . $performers . ")";
-                        }if(is_array($description) != true){
-                            $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                        $oldMonth = $month;
-                    }
-                    $newsletterText .= "</tbody></table>";
-                    dataParser::mailPreparation($topic, $newsletterText);
-                    break;
+                    }break;
                 case 2:
                     $data = $mainData[$i];
                     $newsletterText = '';
@@ -167,63 +127,43 @@ class dataParser{
                         break;
                     }
                     if(!array_key_exists('_event_STATUS', $data)){
-                        foreach ($data as $data){
-                            $month = $data['START_MONAT'];
-                            $time  = $data['START_UHRZEIT'];
-                            $date = $data['DATUM'];
-                            $title = $data['_event_TITLE'];
-                            $performers = $data['_person_NAME'];
-                            $description = $data['_event_LONG_DESCRIPTION'];
-                            $location = $data['_place_NAME'];
-                            $locationCity = $data['_place_CITY'];
-                            $email = $data['_user_EMAIL'];
+                        foreach ($data as $data) {
+                            if ($data['START_MONAT'] == $month) {
+                                $month = $data['START_MONAT'];
+                                $time = $data['START_UHRZEIT'];
+                                $date = $data['DATUM'];
+                                $title = $data['_event_TITLE'];
+                                $performers = $data['_person_NAME'];
+                                $description = $data['_event_LONG_DESCRIPTION'];
+                                $location = $data['_place_NAME'];
+                                $locationCity = $data['_place_CITY'];
+                                $email = $data['_user_EMAIL'];
 
-                            $newsletterText .= "<table><tbody>";
-                            if($month != $oldMonth){
-                                $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                            }$newsletterText .= "<tr><td><strong>";
-                            if ($time == "00.00"){
-                                $newsletterText .= $date . " Ganztägig ";
-                            }if ($time != "00.00"){
-                                $newsletterText .= $date;
-                            }$newsletterText .= "</strong> | " . $title;
-                            if(is_array($performers) != true){
-                                $newsletterText .= " (" . $performers . ")";
-                            }if(is_array($description) != true){
-                                $newsletterText .= " | " . $description;
-                            }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                            $oldMonth = $month;
+                                $newsletterText .= "<table><tbody>";
+                                if($month != $oldMonth){
+                                    $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
+                                }
+                                $newsletterText .= "<tr><td><strong>";
+                                if ($time == "00.00") {
+                                    $newsletterText .= $date . " Ganztägig ";
+                                }
+                                if ($time != "00.00") {
+                                    $newsletterText .= $date;
+                                }
+                                $newsletterText .= "</strong> | " . $title;
+                                if (is_array($performers) != true) {
+                                    $newsletterText .= " (" . $performers . ")";
+                                }
+                                if (is_array($description) != true) {
+                                    $newsletterText .= " | " . $description;
+                                }
+                                $newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
+                                $newsletterText .= "</tbody></table>";
+                            }$oldMonth = $month;
+                        }if($newsletterText != ""){
+                            dataParser::mailPreparation($topic, $newsletterText);
                         }
-                    }else{
-                        $month = $data['START_MONAT'];
-                        $time  = $data['START_UHRZEIT'];
-                        $date = $data['DATUM'];
-                        $title = $data['_event_TITLE'];
-                        $performers = $data['_person_NAME'];
-                        $description = $data['_event_LONG_DESCRIPTION'];
-                        $location = $data['_place_NAME'];
-                        $locationCity = $data['_place_CITY'];
-                        $email = $data['_user_EMAIL'];
-
-                        $newsletterText .= "<table><tbody>";
-                        if($month != $oldMonth){
-                            $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                        }$newsletterText .= "<tr><td><strong>";
-                        if ($time == "00.00"){
-                            $newsletterText .= $date . " Ganztägig ";
-                        }if ($time != "00.00"){
-                            $newsletterText .= $date;
-                        }$newsletterText .= "</strong> | " . $title;
-                        if(is_array($performers) != true){
-                            $newsletterText .= " (" . $performers . ")";
-                        }if(is_array($description) != true){
-                            $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                        $oldMonth = $month;
-                    }
-                    $newsletterText .= "</tbody></table>";
-                    dataParser::mailPreparation($topic, $newsletterText);
-                    break;
+                    }break;
                 case 3:
                     $data = $mainData[$i];
                     $newsletterText = '';
@@ -233,64 +173,43 @@ class dataParser{
                         break;
                     }
                     if(!array_key_exists('_event_STATUS', $data)){
-                        foreach ($data as $data){
-                            $month = $data['START_MONAT'];
-                            $time  = $data['START_UHRZEIT'];
-                            $date = $data['DATUM'];
-                            $title = $data['_event_TITLE'];
-                            $performers = $data['_person_NAME'];
-                            $description = $data['_event_LONG_DESCRIPTION'];
-                            $location = $data['_place_NAME'];
-                            $locationCity = $data['_place_CITY'];
-                            $email = $data['_user_EMAIL'];
+                        foreach ($data as $data) {
+                            if ($data['START_MONAT'] == $month) {
+                                $month = $data['START_MONAT'];
+                                $time = $data['START_UHRZEIT'];
+                                $date = $data['DATUM'];
+                                $title = $data['_event_TITLE'];
+                                $performers = $data['_person_NAME'];
+                                $description = $data['_event_LONG_DESCRIPTION'];
+                                $location = $data['_place_NAME'];
+                                $locationCity = $data['_place_CITY'];
+                                $email = $data['_user_EMAIL'];
 
-                            $newsletterText .= "<table><tbody>";
-                            if($month != $oldMonth){
-                                $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                            }$newsletterText .= "<tr><td><strong>";
-                            if ($time == "00.00"){
-                                $newsletterText .= $date . " Ganztägig ";
-                            }if ($time != "00.00"){
-                                $newsletterText .= $date;
-                            }$newsletterText .= "</strong> | " . $title;
-                            if(is_array($performers) != true){
-                                $newsletterText .= " (" . $performers . ")";
-                            }if(is_array($description) != true){
-                                $newsletterText .= " | " . $description;
-                            }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                            $oldMonth = $month;
+                                $newsletterText .= "<table><tbody>";
+                                if($month != $oldMonth){
+                                    $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
+                                }
+                                $newsletterText .= "<tr><td><strong>";
+                                if ($time == "00.00") {
+                                    $newsletterText .= $date . " Ganztägig ";
+                                }
+                                if ($time != "00.00") {
+                                    $newsletterText .= $date;
+                                }
+                                $newsletterText .= "</strong> | " . $title;
+                                if (is_array($performers) != true) {
+                                    $newsletterText .= " (" . $performers . ")";
+                                }
+                                if (is_array($description) != true) {
+                                    $newsletterText .= " | " . $description;
+                                }
+                                $newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
+                                $newsletterText .= "</tbody></table>";
+                            }$oldMonth = $month;
+                        }if($newsletterText != ""){
+                            dataParser::mailPreparation($topic, $newsletterText);
                         }
-                    }else{
-                        $month = $data['START_MONAT'];
-                        $time  = $data['START_UHRZEIT'];
-                        $date = $data['DATUM'];
-                        $title = $data['_event_TITLE'];
-                        $performers = $data['_person_NAME'];
-                        $description = $data['_event_LONG_DESCRIPTION'];
-                        $location = $data['_place_NAME'];
-                        $locationCity = $data['_place_CITY'];
-                        $email = $data['_user_EMAIL'];
-
-                        $newsletterText .= "<table><tbody>";
-                        if($month != $oldMonth){
-                            $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                        }$newsletterText .= "<tr><td><strong>";
-                        if ($time == "00.00"){
-                            $newsletterText .= $date . " Ganztägig ";
-                        }if ($time != "00.00"){
-                            $newsletterText .= $date;
-                        }$newsletterText .= "</strong> | " . $title;
-                        if(is_array($performers) != true){
-                            $newsletterText .= " (" . $performers . ")";
-                        }if(is_array($description) != true){
-                            $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                        $oldMonth = $month;
-                    }
-
-                    $newsletterText .= "</tbody></table>";
-                    dataParser::mailPreparation($topic, $newsletterText);
-                    break;
+                    }break;
                 case 4:
                     $data = $mainData[$i];
                     $newsletterText = '';
@@ -300,64 +219,43 @@ class dataParser{
                         break;
                     }
                     if(!array_key_exists('_event_STATUS', $data)){
-                        foreach ($data as $data){
-                            $month = $data['START_MONAT'];
-                            $time  = $data['START_UHRZEIT'];
-                            $date = $data['DATUM'];
-                            $title = $data['_event_TITLE'];
-                            $performers = $data['_person_NAME'];
-                            $description = $data['_event_LONG_DESCRIPTION'];
-                            $location = $data['_place_NAME'];
-                            $locationCity = $data['_place_CITY'];
-                            $email = $data['_user_EMAIL'];
+                        foreach ($data as $data) {
+                            if ($data['START_MONAT'] == $month) {
+                                $month = $data['START_MONAT'];
+                                $time = $data['START_UHRZEIT'];
+                                $date = $data['DATUM'];
+                                $title = $data['_event_TITLE'];
+                                $performers = $data['_person_NAME'];
+                                $description = $data['_event_LONG_DESCRIPTION'];
+                                $location = $data['_place_NAME'];
+                                $locationCity = $data['_place_CITY'];
+                                $email = $data['_user_EMAIL'];
 
-                            $newsletterText .= "<table><tbody>";
-                            if($month != $oldMonth){
-                                $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                            }$newsletterText .= "<tr><td><strong>";
-                            if ($time == "00.00"){
-                                $newsletterText .= $date . " Ganztägig ";
-                            }if ($time != "00.00"){
-                                $newsletterText .= $date;
-                            }$newsletterText .= "</strong> | " . $title;
-                            if(is_array($performers) != true){
-                                $newsletterText .= " (" . $performers . ")";
-                            }if(is_array($description) != true){
-                                $newsletterText .= " | " . $description;
-                            }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                            $oldMonth = $month;
+                                $newsletterText .= "<table><tbody>";
+                                if($month != $oldMonth){
+                                    $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
+                                }
+                                $newsletterText .= "<tr><td><strong>";
+                                if ($time == "00.00") {
+                                    $newsletterText .= $date . " Ganztägig ";
+                                }
+                                if ($time != "00.00") {
+                                    $newsletterText .= $date;
+                                }
+                                $newsletterText .= "</strong> | " . $title;
+                                if (is_array($performers) != true) {
+                                    $newsletterText .= " (" . $performers . ")";
+                                }
+                                if (is_array($description) != true) {
+                                    $newsletterText .= " | " . $description;
+                                }
+                                $newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
+                                $newsletterText .= "</tbody></table>";
+                            }$oldMonth = $month;
+                        }if($newsletterText != ""){
+                            dataParser::mailPreparation($topic, $newsletterText);
                         }
-                    }else{
-                        $month = $data['START_MONAT'];
-                        $time  = $data['START_UHRZEIT'];
-                        $date = $data['DATUM'];
-                        $title = $data['_event_TITLE'];
-                        $performers = $data['_person_NAME'];
-                        $description = $data['_event_LONG_DESCRIPTION'];
-                        $location = $data['_place_NAME'];
-                        $locationCity = $data['_place_CITY'];
-                        $email = $data['_user_EMAIL'];
-
-                        $newsletterText .= "<table><tbody>";
-                        if($month != $oldMonth){
-                            $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                        }$newsletterText .= "<tr><td><strong>";
-                        if ($time == "00.00"){
-                            $newsletterText .= $date . " Ganztägig ";
-                        }if ($time != "00.00"){
-                            $newsletterText .= $date;
-                        }$newsletterText .= "</strong> | " . $title;
-                        if(is_array($performers) != true){
-                            $newsletterText .= " (" . $performers . ")";
-                        }if(is_array($description) != true){
-                            $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                        $oldMonth = $month;
-                    }
-
-                    $newsletterText .= "</tbody></table>";
-                    dataParser::mailPreparation($topic, $newsletterText);
-                    break;
+                    }break;
                 case 5:
                     $data = $mainData[$i];
                     $newsletterText = '';
@@ -367,63 +265,43 @@ class dataParser{
                         break;
                     }
                     if(!array_key_exists('_event_STATUS', $data)){
-                        foreach ($data as $data){
-                            $month = $data['START_MONAT'];
-                            $time  = $data['START_UHRZEIT'];
-                            $date = $data['DATUM'];
-                            $title = $data['_event_TITLE'];
-                            $performers = $data['_person_NAME'];
-                            $description = $data['_event_LONG_DESCRIPTION'];
-                            $location = $data['_place_NAME'];
-                            $locationCity = $data['_place_CITY'];
-                            $email = $data['_user_EMAIL'];
+                        foreach ($data as $data) {
+                            if ($data['START_MONAT'] == $month) {
+                                $month = $data['START_MONAT'];
+                                $time = $data['START_UHRZEIT'];
+                                $date = $data['DATUM'];
+                                $title = $data['_event_TITLE'];
+                                $performers = $data['_person_NAME'];
+                                $description = $data['_event_LONG_DESCRIPTION'];
+                                $location = $data['_place_NAME'];
+                                $locationCity = $data['_place_CITY'];
+                                $email = $data['_user_EMAIL'];
 
-                            $newsletterText .= "<table><tbody>";
-                            if($month != $oldMonth){
-                                $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                            }$newsletterText .= "<tr><td><strong>";
-                            if ($time == "00.00"){
-                                $newsletterText .= $date . " Ganztägig ";
-                            }if ($time != "00.00"){
-                                $newsletterText .= $date;
-                            }$newsletterText .= "</strong> | " . $title;
-                            if(is_array($performers) != true){
-                                $newsletterText .= " (" . $performers . ")";
-                            }if(is_array($description) != true){
-                                $newsletterText .= " | " . $description;
-                            }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                            $oldMonth = $month;
+                                $newsletterText .= "<table><tbody>";
+                                if($month != $oldMonth){
+                                    $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
+                                }
+                                $newsletterText .= "<tr><td><strong>";
+                                if ($time == "00.00") {
+                                    $newsletterText .= $date . " Ganztägig ";
+                                }
+                                if ($time != "00.00") {
+                                    $newsletterText .= $date;
+                                }
+                                $newsletterText .= "</strong> | " . $title;
+                                if (is_array($performers) != true) {
+                                    $newsletterText .= " (" . $performers . ")";
+                                }
+                                if (is_array($description) != true) {
+                                    $newsletterText .= " | " . $description;
+                                }
+                                $newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
+                                $newsletterText .= "</tbody></table>";
+                            }$oldMonth = $month;
+                        }if($newsletterText != ""){
+                            dataParser::mailPreparation($topic, $newsletterText);
                         }
-                    }else{
-                        $month = $data['START_MONAT'];
-                        $time  = $data['START_UHRZEIT'];
-                        $date = $data['DATUM'];
-                        $title = $data['_event_TITLE'];
-                        $performers = $data['_person_NAME'];
-                        $description = $data['_event_LONG_DESCRIPTION'];
-                        $location = $data['_place_NAME'];
-                        $locationCity = $data['_place_CITY'];
-                        $email = $data['_user_EMAIL'];
-
-                        $newsletterText .= "<table><tbody>";
-                        if($month != $oldMonth){
-                            $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                        }$newsletterText .= "<tr><td><strong>";
-                        if ($time == "00.00"){
-                            $newsletterText .= $date . " Ganztägig ";
-                        }if ($time != "00.00"){
-                            $newsletterText .= $date;
-                        }$newsletterText .= "</strong> | " . $title;
-                        if(is_array($performers) != true){
-                            $newsletterText .= " (" . $performers . ")";
-                        }if(is_array($description) != true){
-                            $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                        $oldMonth = $month;
-                    }
-                    $newsletterText .= "</tbody></table>";
-                    dataParser::mailPreparation($topic, $newsletterText);
-                    break;
+                    }break;
                 case 6:
                     $data = $mainData[$i];
                     $newsletterText = '';
@@ -433,63 +311,43 @@ class dataParser{
                         break;
                     }
                     if(!array_key_exists('_event_STATUS', $data)){
-                        foreach ($data as $data){
-                            $month = $data['START_MONAT'];
-                            $time  = $data['START_UHRZEIT'];
-                            $date = $data['DATUM'];
-                            $title = $data['_event_TITLE'];
-                            $performers = $data['_person_NAME'];
-                            $description = $data['_event_LONG_DESCRIPTION'];
-                            $location = $data['_place_NAME'];
-                            $locationCity = $data['_place_CITY'];
-                            $email = $data['_user_EMAIL'];
+                        foreach ($data as $data) {
+                            if ($data['START_MONAT'] == $month) {
+                                $month = $data['START_MONAT'];
+                                $time = $data['START_UHRZEIT'];
+                                $date = $data['DATUM'];
+                                $title = $data['_event_TITLE'];
+                                $performers = $data['_person_NAME'];
+                                $description = $data['_event_LONG_DESCRIPTION'];
+                                $location = $data['_place_NAME'];
+                                $locationCity = $data['_place_CITY'];
+                                $email = $data['_user_EMAIL'];
 
-                            $newsletterText .= "<table><tbody>";
-                            if($month != $oldMonth){
-                                $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                            }$newsletterText .= "<tr><td><strong>";
-                            if ($time == "00.00"){
-                                $newsletterText .= $date . " Ganztägig ";
-                            }if ($time != "00.00"){
-                                $newsletterText .= $date;
-                            }$newsletterText .= "</strong> | " . $title;
-                            if(is_array($performers) != true){
-                                $newsletterText .= " (" . $performers . ")";
-                            }if(is_array($description) != true){
-                                $newsletterText .= " | " . $description;
-                            }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                            $oldMonth = $month;
+                                $newsletterText .= "<table><tbody>";
+                                if($month != $oldMonth){
+                                    $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
+                                }
+                                $newsletterText .= "<tr><td><strong>";
+                                if ($time == "00.00") {
+                                    $newsletterText .= $date . " Ganztägig ";
+                                }
+                                if ($time != "00.00") {
+                                    $newsletterText .= $date;
+                                }
+                                $newsletterText .= "</strong> | " . $title;
+                                if (is_array($performers) != true) {
+                                    $newsletterText .= " (" . $performers . ")";
+                                }
+                                if (is_array($description) != true) {
+                                    $newsletterText .= " | " . $description;
+                                }
+                                $newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
+                                $newsletterText .= "</tbody></table>";
+                            }$oldMonth = $month;
+                        }if($newsletterText != ""){
+                            dataParser::mailPreparation($topic, $newsletterText);
                         }
-                    }else{
-                        $month = $data['START_MONAT'];
-                        $time  = $data['START_UHRZEIT'];
-                        $date = $data['DATUM'];
-                        $title = $data['_event_TITLE'];
-                        $performers = $data['_person_NAME'];
-                        $description = $data['_event_LONG_DESCRIPTION'];
-                        $location = $data['_place_NAME'];
-                        $locationCity = $data['_place_CITY'];
-                        $email = $data['_user_EMAIL'];
-
-                        $newsletterText .= "<table><tbody>";
-                        if($month != $oldMonth){
-                            $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                        }$newsletterText .= "<tr><td><strong>";
-                        if ($time == "00.00"){
-                            $newsletterText .= $date . " Ganztägig ";
-                        }if ($time != "00.00"){
-                            $newsletterText .= $date;
-                        }$newsletterText .= "</strong> | " . $title;
-                        if(is_array($performers) != true){
-                            $newsletterText .= " (" . $performers . ")";
-                        }if(is_array($description) != true){
-                            $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                        $oldMonth = $month;
-                    }
-                    $newsletterText .= "</tbody></table>";
-                    dataParser::mailPreparation($topic, $newsletterText);
-                    break;
+                    }break;
                 case 7:
                     $data = $mainData[$i];
                     $newsletterText = '';
@@ -499,63 +357,43 @@ class dataParser{
                         break;
                     }
                     if(!array_key_exists('_event_STATUS', $data)){
-                        foreach ($data as $data){
-                            $month = $data['START_MONAT'];
-                            $time  = $data['START_UHRZEIT'];
-                            $date = $data['DATUM'];
-                            $title = $data['_event_TITLE'];
-                            $performers = $data['_person_NAME'];
-                            $description = $data['_event_LONG_DESCRIPTION'];
-                            $location = $data['_place_NAME'];
-                            $locationCity = $data['_place_CITY'];
-                            $email = $data['_user_EMAIL'];
+                        foreach ($data as $data) {
+                            if ($data['START_MONAT'] == $month) {
+                                $month = $data['START_MONAT'];
+                                $time = $data['START_UHRZEIT'];
+                                $date = $data['DATUM'];
+                                $title = $data['_event_TITLE'];
+                                $performers = $data['_person_NAME'];
+                                $description = $data['_event_LONG_DESCRIPTION'];
+                                $location = $data['_place_NAME'];
+                                $locationCity = $data['_place_CITY'];
+                                $email = $data['_user_EMAIL'];
 
-                            $newsletterText .= "<table><tbody>";
-                            if($month != $oldMonth){
-                                $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                            }$newsletterText .= "<tr><td><strong>";
-                            if ($time == "00.00"){
-                                $newsletterText .= $date . " Ganztägig ";
-                            }if ($time != "00.00"){
-                                $newsletterText .= $date;
-                            }$newsletterText .= "</strong> | " . $title;
-                            if(is_array($performers) != true){
-                                $newsletterText .= " (" . $performers . ")";
-                            }if(is_array($description) != true){
-                                $newsletterText .= " | " . $description;
-                            }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                            $oldMonth = $month;
+                                $newsletterText .= "<table><tbody>";
+                                if($month != $oldMonth){
+                                    $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
+                                }
+                                $newsletterText .= "<tr><td><strong>";
+                                if ($time == "00.00") {
+                                    $newsletterText .= $date . " Ganztägig ";
+                                }
+                                if ($time != "00.00") {
+                                    $newsletterText .= $date;
+                                }
+                                $newsletterText .= "</strong> | " . $title;
+                                if (is_array($performers) != true) {
+                                    $newsletterText .= " (" . $performers . ")";
+                                }
+                                if (is_array($description) != true) {
+                                    $newsletterText .= " | " . $description;
+                                }
+                                $newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
+                                $newsletterText .= "</tbody></table>";
+                            }$oldMonth = $month;
+                        }if($newsletterText != ""){
+                            dataParser::mailPreparation($topic, $newsletterText);
                         }
-                    }else{
-                        $month = $data['START_MONAT'];
-                        $time  = $data['START_UHRZEIT'];
-                        $date = $data['DATUM'];
-                        $title = $data['_event_TITLE'];
-                        $performers = $data['_person_NAME'];
-                        $description = $data['_event_LONG_DESCRIPTION'];
-                        $location = $data['_place_NAME'];
-                        $locationCity = $data['_place_CITY'];
-                        $email = $data['_user_EMAIL'];
-
-                        $newsletterText .= "<table><tbody>";
-                        if($month != $oldMonth){
-                            $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                        }$newsletterText .= "<tr><td><strong>";
-                        if ($time == "00.00"){
-                            $newsletterText .= $date . " Ganztägig ";
-                        }if ($time != "00.00"){
-                            $newsletterText .= $date;
-                        }$newsletterText .= "</strong> | " . $title;
-                        if(is_array($performers) != true){
-                            $newsletterText .= " (" . $performers . ")";
-                        }if(is_array($description) != true){
-                            $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                        $oldMonth = $month;
-                    }
-                    $newsletterText .= "</tbody></table>";
-                    dataParser::mailPreparation($topic, $newsletterText);
-                    break;
+                    }break;
                 case 8:
                     $data = $mainData[$i];
                     $newsletterText = '';
@@ -565,63 +403,43 @@ class dataParser{
                         break;
                     }
                     if(!array_key_exists('_event_STATUS', $data)){
-                        foreach ($data as $data){
-                            $month = $data['START_MONAT'];
-                            $time  = $data['START_UHRZEIT'];
-                            $date = $data['DATUM'];
-                            $title = $data['_event_TITLE'];
-                            $performers = $data['_person_NAME'];
-                            $description = $data['_event_LONG_DESCRIPTION'];
-                            $location = $data['_place_NAME'];
-                            $locationCity = $data['_place_CITY'];
-                            $email = $data['_user_EMAIL'];
+                        foreach ($data as $data) {
+                            if ($data['START_MONAT'] == $month) {
+                                $month = $data['START_MONAT'];
+                                $time = $data['START_UHRZEIT'];
+                                $date = $data['DATUM'];
+                                $title = $data['_event_TITLE'];
+                                $performers = $data['_person_NAME'];
+                                $description = $data['_event_LONG_DESCRIPTION'];
+                                $location = $data['_place_NAME'];
+                                $locationCity = $data['_place_CITY'];
+                                $email = $data['_user_EMAIL'];
 
-                            $newsletterText .= "<table><tbody>";
-                            if($month != $oldMonth){
-                                $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                            }$newsletterText .= "<tr><td><strong>";
-                            if ($time == "00.00"){
-                                $newsletterText .= $date . " Ganztägig ";
-                            }if ($time != "00.00"){
-                                $newsletterText .= $date;
-                            }$newsletterText .= "</strong> | " . $title;
-                            if(is_array($performers) != true){
-                                $newsletterText .= " (" . $performers . ")";
-                            }if(is_array($description) != true){
-                                $newsletterText .= " | " . $description;
-                            }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                            $oldMonth = $month;
+                                $newsletterText .= "<table><tbody>";
+                                if($month != $oldMonth){
+                                    $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
+                                }
+                                $newsletterText .= "<tr><td><strong>";
+                                if ($time == "00.00") {
+                                    $newsletterText .= $date . " Ganztägig ";
+                                }
+                                if ($time != "00.00") {
+                                    $newsletterText .= $date;
+                                }
+                                $newsletterText .= "</strong> | " . $title;
+                                if (is_array($performers) != true) {
+                                    $newsletterText .= " (" . $performers . ")";
+                                }
+                                if (is_array($description) != true) {
+                                    $newsletterText .= " | " . $description;
+                                }
+                                $newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
+                                $newsletterText .= "</tbody></table>";
+                            }$oldMonth = $month;
+                        }if($newsletterText != ""){
+                            dataParser::mailPreparation($topic, $newsletterText);
                         }
-                    }else{
-                        $month = $data['START_MONAT'];
-                        $time  = $data['START_UHRZEIT'];
-                        $date = $data['DATUM'];
-                        $title = $data['_event_TITLE'];
-                        $performers = $data['_person_NAME'];
-                        $description = $data['_event_LONG_DESCRIPTION'];
-                        $location = $data['_place_NAME'];
-                        $locationCity = $data['_place_CITY'];
-                        $email = $data['_user_EMAIL'];
-
-                        $newsletterText .= "<table><tbody>";
-                        if($month != $oldMonth){
-                            $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                        }$newsletterText .= "<tr><td><strong>";
-                        if ($time == "00.00"){
-                            $newsletterText .= $date . " Ganztägig ";
-                        }if ($time != "00.00"){
-                            $newsletterText .= $date;
-                        }$newsletterText .= "</strong> | " . $title;
-                        if(is_array($performers) != true){
-                            $newsletterText .= " (" . $performers . ")";
-                        }if(is_array($description) != true){
-                            $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                        $oldMonth = $month;
-                    }
-                    $newsletterText .= "</tbody></table>";
-                    dataParser::mailPreparation($topic, $newsletterText);
-                    break;
+                    }break;
                 case 9:
                     $data = $mainData[$i];
                     $newsletterText = '';
@@ -631,63 +449,43 @@ class dataParser{
                         break;
                     }
                     if(!array_key_exists('_event_STATUS', $data)){
-                        foreach ($data as $data){
-                            $month = $data['START_MONAT'];
-                            $time  = $data['START_UHRZEIT'];
-                            $date = $data['DATUM'];
-                            $title = $data['_event_TITLE'];
-                            $performers = $data['_person_NAME'];
-                            $description = $data['_event_LONG_DESCRIPTION'];
-                            $location = $data['_place_NAME'];
-                            $locationCity = $data['_place_CITY'];
-                            $email = $data['_user_EMAIL'];
+                        foreach ($data as $data) {
+                            if ($data['START_MONAT'] == $month) {
+                                $month = $data['START_MONAT'];
+                                $time = $data['START_UHRZEIT'];
+                                $date = $data['DATUM'];
+                                $title = $data['_event_TITLE'];
+                                $performers = $data['_person_NAME'];
+                                $description = $data['_event_LONG_DESCRIPTION'];
+                                $location = $data['_place_NAME'];
+                                $locationCity = $data['_place_CITY'];
+                                $email = $data['_user_EMAIL'];
 
-                            $newsletterText .= "<table><tbody>";
-                            if($month != $oldMonth){
-                                $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                            }$newsletterText .= "<tr><td><strong>";
-                            if ($time == "00.00"){
-                                $newsletterText .= $date . " Ganztägig ";
-                            }if ($time != "00.00"){
-                                $newsletterText .= $date;
-                            }$newsletterText .= "</strong> | " . $title;
-                            if(is_array($performers) != true){
-                                $newsletterText .= " (" . $performers . ")";
-                            }if(is_array($description) != true){
-                                $newsletterText .= " | " . $description;
-                            }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                            $oldMonth = $month;
+                                $newsletterText .= "<table><tbody>";
+                                if($month != $oldMonth){
+                                    $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
+                                }
+                                $newsletterText .= "<tr><td><strong>";
+                                if ($time == "00.00") {
+                                    $newsletterText .= $date . " Ganztägig ";
+                                }
+                                if ($time != "00.00") {
+                                    $newsletterText .= $date;
+                                }
+                                $newsletterText .= "</strong> | " . $title;
+                                if (is_array($performers) != true) {
+                                    $newsletterText .= " (" . $performers . ")";
+                                }
+                                if (is_array($description) != true) {
+                                    $newsletterText .= " | " . $description;
+                                }
+                                $newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
+                                $newsletterText .= "</tbody></table>";
+                        }$oldMonth = $month; 
+                    }if($newsletterText != ""){
+                            dataParser::mailPreparation($topic, $newsletterText);
                         }
-                    }else{
-                        $month = $data['START_MONAT'];
-                        $time  = $data['START_UHRZEIT'];
-                        $date = $data['DATUM'];
-                        $title = $data['_event_TITLE'];
-                        $performers = $data['_person_NAME'];
-                        $description = $data['_event_LONG_DESCRIPTION'];
-                        $location = $data['_place_NAME'];
-                        $locationCity = $data['_place_CITY'];
-                        $email = $data['_user_EMAIL'];
-
-                        $newsletterText .= "<table><tbody>";
-                        if($month != $oldMonth){
-                            $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
-                        }$newsletterText .= "<tr><td><strong>";
-                        if ($time == "00.00"){
-                            $newsletterText .= $date . " Ganztägig ";
-                        }if ($time != "00.00"){
-                            $newsletterText .= $date;
-                        }$newsletterText .= "</strong> | " . $title;
-                        if(is_array($performers) != true){
-                            $newsletterText .= " (" . $performers . ")";
-                        }if(is_array($description) != true){
-                            $newsletterText .= " | " . $description;
-                        }$newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                        $oldMonth = $month;
-                    }
-                    $newsletterText .= "</tbody></table>";
-                    dataParser::mailPreparation($topic, $newsletterText);
-                    break;
+                }break;
             }
         }
 
