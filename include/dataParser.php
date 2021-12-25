@@ -46,7 +46,7 @@ class dataParser{
                                 $email = $data['_user_EMAIL'];
 
                                 $newsletterText .= "<table><tbody>";
-                                if($oldMonth == ""){
+                                if($oldMonth != $month){
                                     $newsletterText .= "<tr><td><p style='text-align: center;'><strong>" . $month . "</strong></p></td></tr>";
                                 }
                                 $newsletterText .= "<tr><td><strong>";
@@ -64,11 +64,12 @@ class dataParser{
                                     $newsletterText .= " | " . $description;
                                 }
                                 $newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                                $newsletterText .= "</tbody></table>";
+                                $oldMonth = $month;
                             }else{
                                 $newsletterText = "";
-                            }$oldMonth = $month;
+                            }
                         }if($newsletterText != ""){
+                            $newsletterText .= "</tbody></table>";
                             dataParser::mailPreparation($topic, $newsletterText);
                         }
                     }break;
