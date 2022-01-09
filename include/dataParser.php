@@ -18,9 +18,6 @@ class dataParser{
         $currentMonth = date('m');
         $translatedMonth = translateMonth::translate($currentMonth);
 
-        //initialize some vars
-        $oldMonth = ""; 
-
         //combine topics and data
         for ($i=0; $i<=10; $i++){
             switch ($i){
