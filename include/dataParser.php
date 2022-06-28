@@ -155,7 +155,7 @@ class dataParser{
                         $email = $data['_user_EMAIL'];
 
                         if($month == $translatedMonth){
-                            $newsletterText .= "{{IS_AVAILABLE}}";
+                            $newsletterText .= "{{IS_VALID}}";
                             $newsletterText .= "<tr><td><strong>";
                             if ($time == "00.00") {
                                 $newsletterText .= $date . " Ganztägig ";
@@ -178,8 +178,8 @@ class dataParser{
                     $newsletterText .= "</tbody></table>";
                     $month = translateMonth::translate($currentMonth);
                     $newsletterText = str_replace("{{MONTH}}", "$month", "$newsletterText");
-                    if(strpos($newsletterText, "{{IS_AVAILABLE}}")){
-                        $newsletterText = str_replace("{{IS_AVAILABLE}}", "", "$newsletterText");
+                    if(strpos($newsletterText, "{{IS_VALID}}")){
+                        $newsletterText = str_replace("{{IS_VALID}}", "", "$newsletterText");
                         dataParser::mailPreparation($topic, $newsletterText);
                     }
                 }
