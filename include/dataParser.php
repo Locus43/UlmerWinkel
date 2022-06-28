@@ -23,7 +23,7 @@ class dataParser{
             switch ($i){
                 case 0:
                     $data = $mainData[$i];
-                    $topic = "gottesdienste";
+                    $topic = "Gottesdienste";
                     $state = dataParser::parser($data, $topic);
                     if($state == "0"){
                         break;
@@ -31,7 +31,7 @@ class dataParser{
                     break;
                 case 1:
                     $data = $mainData[$i];
-                    $topic = "gruppen";
+                    $topic = "Gruppen";
                     dataParser::parser($data, $topic);
                     if($state == "0"){
                         break;
@@ -39,7 +39,7 @@ class dataParser{
                     break;
                 case 2:
                     $data = $mainData[$i];
-                    $topic = "fortbildungen";
+                    $topic = "Fortbildungen";
                     dataParser::parser($data, $topic);
                     if($state == "0"){
                         break;
@@ -47,7 +47,7 @@ class dataParser{
                     break;
                 case 3:
                     $data = $mainData[$i];
-                    $topic = "konzerte";
+                    $topic = "Konzerte";
                     dataParser::parser($data, $topic);
                     if($state == "0"){
                         break;
@@ -55,7 +55,7 @@ class dataParser{
                     break;
                 case 4:
                     $data = $mainData[$i];
-                    $topic = "freizeiten";
+                    $topic = "Freizeiten";
                     dataParser::parser($data, $topic);
                     if($state == "0"){
                         break;
@@ -63,7 +63,7 @@ class dataParser{
                     break;
                 case 5:
                     $data = $mainData[$i];
-                    $topic = "ausstellungen";
+                    $topic = "Ausstellungen";
                     dataParser::parser($data, $topic);
                     if($state == "0"){
                         break;
@@ -71,7 +71,7 @@ class dataParser{
                     break;
                 case 6:
                     $data = $mainData[$i];
-                    $topic = "feste";
+                    $topic = "Feste";
                     dataParser::parser($data, $topic);
                     if($state == "0"){
                         break;
@@ -79,7 +79,7 @@ class dataParser{
                     break;
                 case 7:
                     $data = $mainData[$i];
-                    $topic = "sport";
+                    $topic = "Sport";
                     dataParser::parser($data, $topic);
                     if($state == "0"){
                         break;
@@ -87,7 +87,7 @@ class dataParser{
                     break;
                 case 8:
                     $data = $mainData[$i];
-                    $topic = "sonstiges";
+                    $topic = "Sonstiges";
                     dataParser::parser($data, $topic);
                     if($state == "0"){
                         break;
@@ -95,7 +95,7 @@ class dataParser{
                     break;
                 case 9:
                     $data = $mainData[$i];
-                    $topic = "meditation";
+                    $topic = "Meditation";
                     dataParser::parser($data, $topic);
                     if($state == "0"){
                         break;
@@ -140,8 +140,8 @@ class dataParser{
 
         if($data != null){
             if(!array_key_exists('_event_STATUS', $data)){
-                $newsletterText .= "<table><tbody>";
-                $newsletterText .= "<tr><td><p style='text-align: center;'><strong>{{MONTH}}</strong></p></td></tr>";
+                $newsletterText .= "<center><h2>{{MONTH}}</h2></center>";
+				$newsletterText .= "<table role='presentation' border=1 frame=void rules=rows width='100%'>";
                 foreach ($data as $data) {
                     $month = $data['START_MONAT'];
                     $time = $data['START_UHRZEIT'];
@@ -151,29 +151,39 @@ class dataParser{
                     $description = $data['_event_LONG_DESCRIPTION'];
                     $location = $data['_place_NAME'];
                     $locationCity = $data['_place_CITY'];
-                    $email = $data['_user_EMAIL'];
+					$eventImage = $data['_event_IMAGE'];
+					$placeImage = $data['_place_IMAGE'];
+					if(empty($eventImage) || is_array($eventImage))
+					{
+						$eventImage = $placeImage;
+					}
 
                     if($month == $translatedMonth){
-                        $newsletterText .= "<tr><td><strong>";
+                        $newsletterText .= "<tr><td style='padding: 10px;'>";
+						if(!empty($eventImage) && !is_array($eventImage))
+						{
+							$newsletterText .= "<img src=\"https:".$eventImage."\" width='120px'>";
+						}
+						$newsletterText .= "</td><td style='padding: 10px;'><strong>";
                         if ($time == "00.00") {
                             $newsletterText .= $date . " Ganztägig ";
                         }
                         if ($time != "00.00") {
                             $newsletterText .= $date;
                         }
-                        $newsletterText .= "</strong> | " . $title;
-                        if (is_array($performers) != true) {
-                            $newsletterText .= " (" . $performers . ")";
+                        $newsletterText .= "</strong> | " . $title . "<br>" . $location . " (" . $locationCity . ")";
+						if (!is_array($performers)) {
+                            $newsletterText .= " | <i>". $performers . "</i>";
                         }
-                        if (is_array($description) != true) {
-                            $newsletterText .= " | " . $description;
+						if (!is_array($description)) {
+                            $newsletterText .= "<br><i>" . $description . "</i>";
                         }
-                        $newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
+                        $newsletterText .= "</td></tr>";
                     }else{
                         break;
                     }
                 }
-                $newsletterText .= "</tbody></table>";
+                $newsletterText .= "</table>";
                 $month = translateMonth::translate($currentMonth);
                 $newsletterText = str_replace("{{MONTH}}", "$month", "$newsletterText");
                 dataParser::mailPreparation($topic, $newsletterText);
