@@ -1,6 +1,7 @@
 <?php
 //file to get data from json and parse it into right mail format
 //ToDo: write to log file if operation wether was successful or not
+//ToDo: Fix error where topics freizeiten and konzerte are empty in the mail --> doublecheck if check doesnt fail
 
 require_once("db.php");
 include_once("mailDeamon.php");
@@ -138,47 +139,52 @@ class dataParser{
         $currentMonth = date('m');
         $translatedMonth = translateMonth::translate($currentMonth);
 
-        if($data != null){
-            if(!array_key_exists('_event_STATUS', $data)){
-                $newsletterText .= "<table><tbody>";
-                $newsletterText .= "<tr><td><p style='text-align: center;'><strong>{{MONTH}}</strong></p></td></tr>";
-                foreach ($data as $data) {
-                    $month = $data['START_MONAT'];
-                    $time = $data['START_UHRZEIT'];
-                    $date = $data['DATUM'];
-                    $title = $data['_event_TITLE'];
-                    $performers = $data['_person_NAME'];
-                    $description = $data['_event_LONG_DESCRIPTION'];
-                    $location = $data['_place_NAME'];
-                    $locationCity = $data['_place_CITY'];
-                    $email = $data['_user_EMAIL'];
+            if($data != null){
+                if(!array_key_exists('_event_STATUS', $data)){
+                    $newsletterText .= "<table><tbody>";
+                    $newsletterText .= "<tr><td><p style='text-align: center;'><strong>{{MONTH}}</strong></p></td></tr>";
+                    foreach ($data as $data) {
+                        $month = $data['START_MONAT'];
+                        $time = $data['START_UHRZEIT'];
+                        $date = $data['DATUM'];
+                        $title = $data['_event_TITLE'];
+                        $performers = $data['_person_NAME'];
+                        $description = $data['_event_LONG_DESCRIPTION'];
+                        $location = $data['_place_NAME'];
+                        $locationCity = $data['_place_CITY'];
+                        $email = $data['_user_EMAIL'];
 
-                    if($month == $translatedMonth){
-                        $newsletterText .= "<tr><td><strong>";
-                        if ($time == "00.00") {
-                            $newsletterText .= $date . " Ganztägig ";
+                        if($month == $translatedMonth){
+                            $newsletterText .= "{{IS_AVAILABLE}}";
+                            $newsletterText .= "<tr><td><strong>";
+                            if ($time == "00.00") {
+                                $newsletterText .= $date . " Ganztägig ";
+                            }
+                            if ($time != "00.00") {
+                                $newsletterText .= $date;
+                            }
+                            $newsletterText .= "</strong> | " . $title;
+                            if (is_array($performers) != true) {
+                                $newsletterText .= " (" . $performers . ")";
+                            }
+                            if (is_array($description) != true) {
+                                $newsletterText .= " | " . $description;
+                            }
+                            $newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
+                        }else{
+                            break;
                         }
-                        if ($time != "00.00") {
-                            $newsletterText .= $date;
-                        }
-                        $newsletterText .= "</strong> | " . $title;
-                        if (is_array($performers) != true) {
-                            $newsletterText .= " (" . $performers . ")";
-                        }
-                        if (is_array($description) != true) {
-                            $newsletterText .= " | " . $description;
-                        }
-                        $newsletterText .= " | " . $location . " (" . $locationCity . ") | <a href=mailto:" . $email . ">" . $email . "</a></td></tr>";
-                    }else{
-                        break;
+                    }
+                    $newsletterText .= "</tbody></table>";
+                    $month = translateMonth::translate($currentMonth);
+                    $newsletterText = str_replace("{{MONTH}}", "$month", "$newsletterText");
+                    if(strpos($newsletterText, "{{IS_AVAILABLE}}")){
+                        $newsletterText = str_replace("{{IS_AVAILABLE}}", "", "$newsletterText");
+                        dataParser::mailPreparation($topic, $newsletterText);
                     }
                 }
-                $newsletterText .= "</tbody></table>";
-                $month = translateMonth::translate($currentMonth);
-                $newsletterText = str_replace("{{MONTH}}", "$month", "$newsletterText");
-                dataParser::mailPreparation($topic, $newsletterText);
             }
-        }else{
+        else{
             return "0";
         }
     }
