@@ -138,9 +138,12 @@ class dataParser{
         $newsletterText = "";
         $currentMonth = date('m');
         $translatedMonth = translateMonth::translate($currentMonth);
+        $date = date('d.m') . ".";
+        echo $date . "\n";
 
             if($data != null){
-                if(!array_key_exists('_event_STATUS', $data)){
+                if(!array_key_exists('_event_STATUS', $data) && array_search($date, $data)){
+                    echo "innit"; 
                     $newsletterText .= "<table><tbody>";
                     $newsletterText .= "<tr><td><p style='text-align: center;'><strong>{{MONTH}}</strong></p></td></tr>";
                     foreach ($data as $data) {
@@ -155,7 +158,6 @@ class dataParser{
                         $email = $data['_user_EMAIL'];
 
                         if($month == $translatedMonth){
-                            $newsletterText .= "{{IS_VALID}}";
                             $newsletterText .= "<tr><td><strong>";
                             if ($time == "00.00") {
                                 $newsletterText .= $date . " Ganztägig ";
@@ -178,10 +180,7 @@ class dataParser{
                     $newsletterText .= "</tbody></table>";
                     $month = translateMonth::translate($currentMonth);
                     $newsletterText = str_replace("{{MONTH}}", "$month", "$newsletterText");
-                    if(strpos($newsletterText, "{{IS_VALID}}")){
-                        $newsletterText = str_replace("{{IS_VALID}}", "", "$newsletterText");
-                        dataParser::mailPreparation($topic, $newsletterText);
-                    }
+                    dataParser::mailPreparation($topic, $newsletterText);
                 }
             }
         else{
