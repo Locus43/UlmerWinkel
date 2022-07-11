@@ -4,7 +4,7 @@ class dataFetcher{
    public function fetchData(){
        $config = parse_ini_file('config.ini.php');
        $baseUrl = $config['url'];
-       $jsonPath = $config['jsonPath'];
+       $jsonPath = __DIR__ . $config['jsonPath'];
        file_put_contents("$jsonPath", "[");
        for($eventType = 1; $eventType <= 10; $eventType++){
            $url = str_replace("{{EVENTTYPE}}", "$eventType", $baseUrl);

@@ -1,5 +1,6 @@
 <?php
 require_once("../include/db.php");
+require_once("../include/dataFetcher.php");
 
 session_start();
 if(!isset($_SESSION['userid'])){
@@ -22,6 +23,13 @@ $versionOnline = file_get_contents($versionOnline);
 if($versionOnline != $currentVersion){
     $message = "<div class=\"info\"><span class=\"closebtn\" onclick=\"this.parentElement.style.display='none';\">&times;</span>Es ist ein neues Update des Newsletters vorhanden. Bitte Updaten. Neue Version: <b><i>" . $versionOnline . "</i></b> - Aktuelle Version: <b><i>" . $currentVersion . "</i></b><span class=\"identifier\"><right> - ID: updateNotifier</right></span></div>";
 }
+
+/* button section for parse and fetch data */
+if(isset($_POST['fetchData'])){
+    echo "ok"; 
+    dataFetcher::fetchData();
+}
+
 ?>
 
 <!DOCTYPE HTML>
@@ -74,7 +82,11 @@ if($versionOnline != $currentVersion){
             <p>Herzlich Willkommen auf der Admin-Page vom Ulmer-Winkel Newsletter. Hier haben Sie verschiedenste Möglichkeiten, das Newslettersystem zu administrieren.</p><br>
             <center>
                 <button type="" class="button"><a href="newsletter.php">Newsletter verwalten</a></button><br><br>
-                <button type="" class="button"><a href="users.php">Userverwaltung</a></button>
+                <button type="" class="button"><a href="users.php">Userverwaltung</a></button><br><br>
+                <form method="post">
+                    <input type="button" name="fetchData" class="button" value="Eventdaten manuell holen"/><br><br>
+                    <input type="button" name="parseData" class="button" value="Newslettersystem manuell starten"/>
+                </form>
             </center>
         </div>
     </section>
