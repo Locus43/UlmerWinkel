@@ -34,6 +34,7 @@ class dataParser{
                     $data = $mainData[$i];
                     $topic = "Gruppen";
                     dataParser::parser($data, $topic, $i);
+
                     if($state == "0"){
                         break;
                     }
@@ -41,7 +42,9 @@ class dataParser{
                 case 2:
                     $data = $mainData[$i];
                     $topic = "Fortbildungen";
+
                     dataParser::parser($data, $topic, $i);
+
                     if($state == "0"){
                         break;
                     }
@@ -50,6 +53,7 @@ class dataParser{
                     $data = $mainData[$i];
                     $topic = "Konzerte";
                     dataParser::parser($data, $topic, $i);
+
                     if($state == "0"){
                         break;
                     }
@@ -58,6 +62,7 @@ class dataParser{
                     $data = $mainData[$i];
                     $topic = "Freizeiten";
                     dataParser::parser($data, $topic, $i);
+
                     if($state == "0"){
                         break;
                     }
@@ -66,6 +71,7 @@ class dataParser{
                     $data = $mainData[$i];
                     $topic = "Ausstellungen";
                     dataParser::parser($data, $topic, $i);
+
                     if($state == "0"){
                         break;
                     }
@@ -74,6 +80,7 @@ class dataParser{
                     $data = $mainData[$i];
                     $topic = "Feste";
                     dataParser::parser($data, $topic, $i);
+
                     if($state == "0"){
                         break;
                     }
@@ -82,6 +89,7 @@ class dataParser{
                     $data = $mainData[$i];
                     $topic = "Sport";
                     dataParser::parser($data, $topic, $i);
+
                     if($state == "0"){
                         break;
                     }
@@ -90,6 +98,7 @@ class dataParser{
                     $data = $mainData[$i];
                     $topic = "Sonstiges";
                     dataParser::parser($data, $topic, $i);
+
                     if($state == "0"){
                         break;
                     }
@@ -98,6 +107,7 @@ class dataParser{
                     $data = $mainData[$i];
                     $topic = "Meditation";
                     dataParser::parser($data, $topic, $i);
+
                     if($state == "0"){
                         break;
                     }
@@ -183,6 +193,7 @@ class dataParser{
                             }else{
                                 break;
                         }
+
                     }
                     $month = translateMonth::translate($currentMonth);
                     dataParser::mailPreparation($topic, $newsletterText, $month);
