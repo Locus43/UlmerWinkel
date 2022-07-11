@@ -107,9 +107,9 @@ class mailDeamon{
 
             //final step
             $mail->send();
-            syslog(LOG_INFO, "Mail has bee sent successfully");
+            syslog(4, "Mail has been sent successfully");
         }catch(Exception $e){
-            syslog(LOG_ERROR, "Mail couldn\'t be sent. Mailer error: {$mail->ErrorInfo}");
+            syslog(4, "Mail couldn\'t be sent. Mailer error: {$mail->ErrorInfo}");
         }
     }
 }
