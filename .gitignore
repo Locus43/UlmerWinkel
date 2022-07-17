@@ -12,3 +12,4 @@ releases/
 .DS_Store
 admin/assets/css/images/intro.svg
 *.php_bak
+!mail.ini.php
