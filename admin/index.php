@@ -1,10 +1,19 @@
 <?php
 require_once("../include/db.php");
 require_once("../include/dataFetcher.php");
+require_once("../include/dataParser.php");
+
 
 session_start();
 if(!isset($_SESSION['userid'])){
     header("Location: login/index.php");
+}
+
+/* button section for parse and fetch data */
+if(isset($_POST['fetch'])){
+    dataFetcher::fetchData();
+}if(isset($_POST['parse'])){
+    dataParser::getEvents();
 }
 
 $query = "select email from newsletter where is_confirmed='1'";
@@ -23,13 +32,6 @@ $versionOnline = file_get_contents($versionOnline);
 if($versionOnline != $currentVersion){
     $message = "<div class=\"info\"><span class=\"closebtn\" onclick=\"this.parentElement.style.display='none';\">&times;</span>Es ist ein neues Update des Newsletters vorhanden. Bitte Updaten. Neue Version: <b><i>" . $versionOnline . "</i></b> - Aktuelle Version: <b><i>" . $currentVersion . "</i></b><span class=\"identifier\"><right> - ID: updateNotifier</right></span></div>";
 }
-
-/* button section for parse and fetch data */
-if(isset($_POST['fetchData'])){
-    echo "ok"; 
-    dataFetcher::fetchData();
-}
-
 ?>
 
 <!DOCTYPE HTML>
@@ -83,9 +85,9 @@ if(isset($_POST['fetchData'])){
             <center>
                 <button type="" class="button"><a href="newsletter.php">Newsletter verwalten</a></button><br><br>
                 <button type="" class="button"><a href="users.php">Userverwaltung</a></button><br><br>
-                <form method="post">
-                    <input type="button" name="fetchData" class="button" value="Eventdaten manuell holen"/><br><br>
-                    <input type="button" name="parseData" class="button" value="Newslettersystem manuell starten"/>
+                <form method="post" action="">
+                    <button type="" class="button" name="fetch">Daten manuell holen</button><br><br>
+                    <button type="" class="button" name="parse">Newsletter manuell senden</button>
                 </form>
             </center>
         </div>
