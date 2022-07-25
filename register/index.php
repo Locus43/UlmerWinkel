@@ -90,7 +90,7 @@ $currentVersion = file_get_contents("../include/version.vs");
 <footer id="footer" class="wrapper alt">
     <div class="inner">
         <ul class="menu">
-            <li>&copy; Ulmer Winkel. All rights reserved.</li><li><a href="https://ulmer-winkel.de/pages/impressum.php">Impressum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li><div align="right">Version <a href="https://github.com/Locus43/UlmerWinkel/releases"><?php echo $currentVersion; ?></a></div></li>
+            <li>&copy; Ulmer Winkel. All rights reserved.</li><li><a href="https://ulmer-winkel.de/pages/impressum.php">Impressum</a></li><li><a href="https://ulmer-winkel.de/pages/datenschutz.php">Datenschutzerklärung</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li><div align="right">Version <a href="https://github.com/Locus43/UlmerWinkel/releases"><?php echo $currentVersion; ?></a></div></li>
         </ul>
     </div>
 </footer>
