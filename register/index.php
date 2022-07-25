@@ -28,12 +28,12 @@
 
 <!-- Header -->
 <header id="header">
-    <a href="https://ulmerwinkel.evangelische-kirche-elchingen.de" class="title">Ulmer Winkel - Newsletter</a>
+    <a href="https://ulmer-winkel.de" class="title">Ulmer Winkel - Newsletter</a>
     <nav>
         <ul>
-            <li><a href="">Home</a></li>
+            <li><a href="https://ulmer-winkel.de">Home</a></li>
             <li><a href="index.php" class="active">Newsletter</a></li>
-            <li><a href="../index.php#contact">Datenschutz</a></li>
+            <li><a href="https://ulmer-winkel.de/pages/datenschutz.php">Datenschutz</a></li>
         </ul>
     </nav>
 </header>
@@ -52,7 +52,7 @@
                     <label for="email"><b>Email-Adresse</b></label>
                     <input type="text" placeholder="Email-Adresse" name="email" id="email" required>
                     <hr>
-                    <p>Bitte wählen Sie die Themen, zu denen Sie updates erhalten wollen.</p>
+                    <p>Bitte wählen Sie die Themen, zu denen Sie Updates erhalten möchten.</p>
                     <input type="checkbox" id="1" name="topic[]" value="1"><label for="1">Gottesdienste</label>
 
                     <input type="checkbox" id="2" name="topic[]" value="2"><label for="2">Gruppen/Kreise</label>
@@ -90,7 +90,7 @@ $currentVersion = file_get_contents("../include/version.vs");
 <footer id="footer" class="wrapper alt">
     <div class="inner">
         <ul class="menu">
-            <li>&copy; Evangelische Kirchengemeinde Elchingen. All rights reserved.</li><li><a href="/kirche/impressum.php">Impressum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li><div align="right">Version <a href="https://github.com/Locus43/UlmerWinkel/releases"><?php echo $currentVersion; ?></a></div></li>
+            <li>&copy; Ulmer Winkel. All rights reserved.</li><li><a href="https://ulmer-winkel.de/pages/datenschutz.php">Impressum</a></li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li><div align="right">Version <a href="https://github.com/Locus43/UlmerWinkel/releases"><?php echo $currentVersion; ?></a></div></li>
         </ul>
     </div>
 </footer>
