@@ -71,7 +71,7 @@
 
                     <input type="checkbox" id="9" name="topic[]" value="9"><label for="9">Sonstiges</label>
 
-                    <input type="checkbox" id="10" name="topic[]" value="10"><label for="10">Fortbildungen/Seminare</label>
+                    <input type="checkbox" id="10" name="topic[]" value="10"><label for="10">Meditation</label>
 
                     <hr>
                     <p>Durch klicken auf "Registrieren", bestätigen Sie, dass Sie mit unseren <a href="">Datenschutzbestimmungen</a> einverstanden sind.</p>

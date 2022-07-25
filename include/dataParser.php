@@ -1,7 +1,6 @@
 <?php
 //file to get data from json and parse it into right mail format
 //ToDo: write to log file if operation wether was successful or not
-//ToDo: Fix error where topics freizeiten and konzerte are empty in the mail --> doublecheck if check doesnt fail
 
 require_once("db.php");
 include_once("mailDeamon.php");
@@ -128,11 +127,11 @@ class dataParser{
         return $users;
     }private function mailPreparation($topic, $newsletter, $month){
         if(!$newsletter == ""){
-            $config = parse_ini_file("../../include/mail.ini.php"); //config for mail mask
+            $config = parse_ini_file("mail.ini.php"); //config for mail mask
             $subject = $config['newsletterSubject'];
             $textMask = $config['newsletterText'];
 
-            $config = parse_ini_file("../../include/config.ini.php"); //config for baseUrl
+            $config = parse_ini_file("config.ini.php"); //config for baseUrl
             $baseUrl = $config["base_url"];
 
             $users = dataParser::getUser($topic);
