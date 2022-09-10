@@ -5,9 +5,11 @@ $id = $_GET['id'];
 
 if($id != ""){
     $query = "delete from newsletter where id = '" . $id . "'";
-    $result = db::getInstance()->dbquery($query);
+    $resultNewsletter = db::getInstance()->dbquery($query);
+    $query = "delete from topics where uid = '" . $id . "'";
+    $resultTopics = db::getInstance()->dbquery($query);
 
-    if($result == true){
+    if($resultNewsletter && $resultTopics == true){
         echo "Sie haben sich erfolgreich vom Newsletter abgemeldet.";
     }else{
         echo "Fehler. Die Emailadresse wurde entweder nicht gefunden, oder konnte nicht aus unserer Datenbank gelöscht werden. Bitte versuchen Sie es erneut.";

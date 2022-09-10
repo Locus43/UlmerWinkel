@@ -41,8 +41,7 @@
                 return false;
             }
         }
-        public function get_result($query)
-        {
+        public function get_result($query){
             $result = $this->query($query);
             if ($result->num_rows > 0) {
                 $row = $result->fetch_all();
