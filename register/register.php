@@ -13,7 +13,6 @@ $valid = validateEmail::validate($email);
 
 if($valid == "true"){
     $id = (new generateId)->generateId();
-    //$id = generateId::generateId();
     $query = "INSERT INTO newsletter (id, email) values('" . $id . "', '" . $email . "')";
     $result = db::getInstance()->dbquery($query);
     $query = "INSERT INTO topics (uid) values('" . $id . "')";
@@ -53,8 +52,12 @@ if($valid == "true"){
                 $result = db::getInstance()->dbquery($query);
             }
         }
-        mailDeamon::sendRegisterMail($email);
-        echo "Bestätigungsemail wurde verschickt. Bitte bestätigen Sie Ihre Emailadresse.";
+        $query = "INSERT INTO events (eventtype) values('register')";
+        $result = db::getInstance()->dbquery($query);
+        if($result == true){
+            mailDeamon::sendRegisterMail($email);
+            echo "Bestätigungsemail wurde verschickt. Bitte bestätigen Sie Ihre Emailadresse.";
+        }
     }else{
         echo "Ein technischer Fehler ist aufgetreten. Bitte versuchen Sie es erneut. Sollte dieser Fehler erneut auftreten, schreiben Sie bitte eine Email an: <a href='mailto:jan@wehrheim.eu'>jan(at)wehrheim.eu</a>";
     }

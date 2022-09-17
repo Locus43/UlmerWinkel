@@ -8,8 +8,10 @@ if($id != ""){
     $resultNewsletter = db::getInstance()->dbquery($query);
     $query = "delete from topics where uid = '" . $id . "'";
     $resultTopics = db::getInstance()->dbquery($query);
+    $query = "INSERT INTO events (eventtype) values('unregister')";
+    $resultStatics = db::getInstance()->dbquery($query);
 
-    if($resultNewsletter && $resultTopics == true){
+    if($resultNewsletter && $resultTopics && $resultStatics == true){
         echo "Sie haben sich erfolgreich vom Newsletter abgemeldet.";
     }else{
         echo "Fehler. Die Emailadresse wurde entweder nicht gefunden, oder konnte nicht aus unserer Datenbank gelöscht werden. Bitte versuchen Sie es erneut.";
