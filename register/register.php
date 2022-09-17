@@ -11,7 +11,7 @@ $valid = false;
 
 $valid = validateEmail::validate($email);
 
-if($valid == "true"){
+if($valid == true){
     $id = (new generateId)->generateId();
     $query = "INSERT INTO newsletter (id, email) values('" . $id . "', '" . $email . "')";
     $result = db::getInstance()->dbquery($query);
@@ -53,8 +53,8 @@ if($valid == "true"){
             }
         }
         $query = "INSERT INTO events (eventtype) values('register')";
-        $result = db::getInstance()->dbquery($query);
-        if($result == true){
+        $resultStats = db::getInstance()->dbquery($query);
+        if($result && $resultStats == true){
             mailDeamon::sendRegisterMail($email);
             echo "Bestätigungsemail wurde verschickt. Bitte bestätigen Sie Ihre Emailadresse.";
         }
