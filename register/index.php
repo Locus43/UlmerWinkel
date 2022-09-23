@@ -74,7 +74,7 @@
                     <input type="checkbox" id="10" name="topic[]" value="10"><label for="10">Meditation</label>
 
                     <hr>
-                    <p>Durch klicken auf "Registrieren", bestätigen Sie, dass Sie mit unseren <a href="">Datenschutzbestimmungen</a> einverstanden sind.</p>
+                    <p>Durch klicken auf "Registrieren", bestätigen Sie, dass Sie mit unseren <a href="https://ulmer-winkel.de/pages/datenschutz.php">Datenschutzbestimmungen</a> einverstanden sind.</p>
                     <button type="submit" class="button">Registrieren</button>
                 </form>
             </p>
