@@ -12,10 +12,10 @@ if($emailOption == "all"){
 
     for($i = 0; $i <= count($result); $i++){
         $email = $result[$i][0];
-        mailDeamon::sendNewsletter($email, $text, $subject);
+        mailDeamon::sendManualNewsletter($email, $text, $subject);
     }
     echo "<script>history.go(-1)</script>";
 }elseif ($emailOption != "all"){
-    mailDeamon::sendNewsletter($emailOption, $text, $subject);
+    mailDeamon::sendManualNewsletter($emailOption, $text, $subject);
     echo "<script>history.go(-1)</script>";
 }
