@@ -149,7 +149,9 @@ class dataParser{
     }private function parser($data, $topic, $topicInt){
         $newsletterText = "";
         $currentMonth = date('m');
+        $nextMonth = date('m',strtotime('first day of +1 month'));
         $translatedMonth = translateMonth::translate($currentMonth);
+        $translatedNextMonth = translateMonth::translate($nextMonth);
 
             if($data != null){
                 if(!array_key_exists('_event_STATUS', $data)){
@@ -168,7 +170,7 @@ class dataParser{
                         {
                             $eventImage = $placeImage;
                         }
-                            if($month == $translatedMonth){
+                            if($month == $translatedMonth || $month == $translatedNextMonth){
                                 $newsletterText .= "<tr><td style='padding: 10px;'>";
                                 if(!empty($eventImage) && !is_array($eventImage))
                                 {
