@@ -111,5 +111,50 @@ class mailDeamon{
         }catch(Exception $e){
             syslog(4, "Mail couldn\'t be sent. Mailer error: {$mail->ErrorInfo}");
         }
+    }public function sendManualNewsletter($email, $manualText, $subject){
+    $recipient = $email;
+    $mailConfig = parse_ini_file('config.ini.php');
+    $sender = $mailConfig['smtp_sender'];
+
+    $mailMask = parse_ini_file("mail.ini.php");
+    $textMask = $mailMask["submitText"];
+    $text = str_replace("{{BODY}}", "$manualText", $textMask);
+
+    $debug = $mailConfig['smtp_debug'];
+    $host = $mailConfig['smtp_host'];
+    $smtp_auth = $mailConfig['smtp_auth'];
+    $password = $mailConfig['smtp_password'];
+    $securityOptions = $mailConfig['smtp_security'];
+    $port = $mailConfig['port'];
+
+    $mail = new PHPMailer(true);
+
+    try{
+        //server connection
+        $mail->SMTPDebug = $debug;
+        $mail->isSMTP();
+        $mail->Host = $host;
+        $mail->SMTPAuth = $smtp_auth;
+        $mail->Username = $sender;
+        $mail->Password = $password;
+        $mail->SMTPSecure = $securityOptions;
+        $mail->Port = $port;
+        $mail->CharSet = 'UTF-8';
+
+        //recipients
+        $mail->setFrom($sender, $sender);
+        $mail->addAddress($recipient);
+
+        //Content
+        $mail->isHTML(true);
+        $mail->Subject = $subject;
+        $mail->Body = $text;
+
+        //final step
+        $mail->send();
+        syslog(4, "Mail has been sent successfully");
+    }catch(Exception $e){
+        syslog(4, "Mail couldn\'t be sent. Mailer error: {$mail->ErrorInfo}");
     }
+}
 }
