@@ -196,7 +196,7 @@ class dataParser{
                         }
 
                     }
-                    $month = translateMonth::translate($currentMonth);
+                    $month = $translatedMonth . " &amp; " . $translatedNextMonth;
                     dataParser::mailPreparation($topic, $newsletterText, $month);
                 }
             }
