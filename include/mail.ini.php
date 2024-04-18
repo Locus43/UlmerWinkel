@@ -69,7 +69,6 @@ newsletterText = "
                     <p>Guten morgen, <br>Das Wochenende steht bevor und das heißt: Es gibt neue Termine in den Kirchengemeinden.<br>
                         Mit dieser Email informieren wir Sie, über die aktuellen und kommenden Termine im Ulmer-Winkel.<br>
                         Kommen Sie gut in das Wochenende!<br> Ihr Ulmer-Winkel<br><br>
-                        <i>Beachten Sie bitte, dass es aufgrund der aktuellen Lage zu kurzfristigen Änderungen kommen kann.</i></p>
                     <p>
                         <center><h2>{{MONTH}}</h2></center>
                         <table role='presentation' border=1 frame=void rules=rows width='100%'>
