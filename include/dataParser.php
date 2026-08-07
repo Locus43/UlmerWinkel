@@ -174,7 +174,7 @@ class dataParser{
                                 $newsletterText .= "<tr><td style='padding: 10px;'>";
                                 if(!empty($eventImage) && !is_array($eventImage))
                                 {
-                                    $newsletterText .= "<img src=\"https:".$eventImage."\" width='120px'>";
+                                    $newsletterText .= "<img src=\"".$eventImage."\" width='120px'>";
                                 }
                                 $newsletterText .= "</td><td style='padding: 10px;'><strong>";
                                 if ($time == "00.00") {
