@@ -1,16 +1,21 @@
 <?php
 require_once("../include/db.php");
 require_once("../include/mailDeamon.php");
+require_once("../include/csrf.php");
 
 session_start();
 if(!isset($_SESSION['userid'])){
     header("Location: login/index.php");
     exit;
 }
+if($_SERVER['REQUEST_METHOD'] !== 'POST' || !csrf::check($_POST['csrf_token'] ?? '')){
+    http_response_code(403);
+    exit("Ungültige Anfrage. Bitte das Formular neu laden und erneut absenden.");
+}
 
-$emailOption = $_GET['emailOption'] ?? '';
-$text = $_GET['mailText'] ?? '';
-$subject = $_GET['subject'] ?? '';
+$emailOption = $_POST['emailOption'] ?? '';
+$text = $_POST['mailText'] ?? '';
+$subject = $_POST['subject'] ?? '';
 
 if($emailOption == "all"){
     $query = "select email from newsletter where is_confirmed='1'";

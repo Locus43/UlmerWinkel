@@ -1,5 +1,6 @@
 <?php
 require_once("../include/db.php");
+require_once("../include/csrf.php");
 
 session_start();
 if(!isset($_SESSION['userid'])){
@@ -61,7 +62,8 @@ $result = db::getInstance()->get_result($query);
                 entsprechende Option im Drop-Down Menü.
                 </p>
             <p>
-                <form action="bakeCake.php">
+                <form action="bakeCake.php" method="post">
+                    <?php echo csrf::field(); ?>
                     <p>Hier können Sie den Newsletter verfassen. HTML-Tags werden unterstützt. Eine entsprechende Liste gibt es <a href="https://www.mediaevent.de/html/html5-tags.html">hier.</a></p>
                     <hr>
                     <select name="emailOption">
