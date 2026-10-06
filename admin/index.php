@@ -7,6 +7,7 @@ require_once("../include/dataParser.php");
 session_start();
 if(!isset($_SESSION['userid'])){
     header("Location: login/index.php");
+    exit;
 }
 
 /* button section for parse and fetch data */

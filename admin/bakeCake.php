@@ -2,6 +2,12 @@
 require_once("../include/db.php");
 require_once("../include/mailDeamon.php");
 
+session_start();
+if(!isset($_SESSION['userid'])){
+    header("Location: login/index.php");
+    exit;
+}
+
 $emailOption = $_GET['emailOption'] ?? '';
 $text = $_GET['mailText'] ?? '';
 $subject = $_GET['subject'] ?? '';

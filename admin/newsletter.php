@@ -4,6 +4,7 @@ require_once("../include/db.php");
 session_start();
 if(!isset($_SESSION['userid'])){
     header("Location: login/index.php");
+    exit;
 }
 
 $query = "select email from newsletter where is_confirmed='1'";
