@@ -36,15 +36,16 @@
             }
             parent::set_charset('utf8mb4');
         }
-        public function dbquery($query){
-            if($this->query($query)){
+        //$params are bound to the ?-placeholders in $query (prepared statement)
+        public function dbquery($query, $params = []){
+            if($this->execute_query($query, $params ?: null)){
                 return true;
             }else{
                 return false;
             }
         }
-        public function get_result($query){
-            $result = $this->query($query);
+        public function get_result($query, $params = []){
+            $result = $this->execute_query($query, $params ?: null);
             if ($result && $result->num_rows > 0) {
                 $row = $result->fetch_all();
                 return $row;

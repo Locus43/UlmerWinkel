@@ -27,8 +27,8 @@ class validateEmail{
                 return false;
             }
     }public static function checkForId($id){
-        $query = "select id from newsletter where id='" . $id . "'";
-        $result = db::getInstance()->get_result($query);
+        $query = "select id from newsletter where id = ?";
+        $result = db::getInstance()->get_result($query, [$id]);
         if($result){
             return true;
         }else{

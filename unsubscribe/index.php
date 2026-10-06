@@ -9,10 +9,10 @@ if($confirm === "true") {
     $valid = validateEmail::checkForId($id);
 
     if($id != "" && $valid){
-        $query = "delete from newsletter where id = '" . $id . "'";
-        $resultNewsletter = db::getInstance()->dbquery($query);
-        $query = "delete from topics where uid = '" . $id . "'";
-        $resultTopics = db::getInstance()->dbquery($query);
+        $query = "delete from newsletter where id = ?";
+        $resultNewsletter = db::getInstance()->dbquery($query, [$id]);
+        $query = "delete from topics where uid = ?";
+        $resultTopics = db::getInstance()->dbquery($query, [$id]);
         $query = "INSERT INTO events (eventtype) values('unsubscribe')";
         $resultStatics = db::getInstance()->dbquery($query);
     

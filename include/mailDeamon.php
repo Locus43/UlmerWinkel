@@ -65,8 +65,8 @@ class mailDeamon{
         }
     }
     public static function getID($email){
-        $query = "select id from newsletter where email = '" . $email . "'";
-        $result = db::getInstance()->get_result($query);
+        $query = "select id from newsletter where email = ?";
+        $result = db::getInstance()->get_result($query, [$email]);
         return $result[0][0] ?? null;
     }
     public static function sendNewsletter($email, $text, $subject){
