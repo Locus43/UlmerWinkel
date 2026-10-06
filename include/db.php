@@ -30,9 +30,13 @@
 
             //PHP >= 8.1 throws exceptions by default, keep returning false on errors like before
             mysqli_report(MYSQLI_REPORT_OFF);
-            parent::__construct($this->host, $this->user, $this->passwd, $this->db);
+            //@: the warning would show host and user name, the error is handled below
+            @parent::__construct($this->host, $this->user, $this->passwd, $this->db);
             if(mysqli_connect_error()){
-                exit('Connection error (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
+                //details only to the log, visitors must not see host or user name
+                syslog(LOG_ERR, 'DB connection error (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
+                http_response_code(503);
+                exit('Der Dienst ist vorübergehend nicht erreichbar. Bitte versuchen Sie es später erneut.');
             }
             parent::set_charset('utf8mb4');
         }
