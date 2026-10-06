@@ -68,7 +68,8 @@ $result = db::getInstance()->get_result($query);
                         <option value="all">Alle</option>
                         <?php
                             for($i = 0; $i < count($result); $i++){
-                              echo "<option value='" . $result[$i][0] . "'>" . $result[$i][0] . "</option>";
+                              $email = htmlspecialchars($result[$i][0], ENT_QUOTES, 'UTF-8');
+                              echo "<option value='" . $email . "'>" . $email . "</option>";
                              }
                         ?>
                     </select>
