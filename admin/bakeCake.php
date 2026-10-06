@@ -2,8 +2,9 @@
 require_once("../include/db.php");
 require_once("../include/mailDeamon.php");
 require_once("../include/csrf.php");
+require_once("../include/session.php");
 
-session_start();
+session::start();
 if(!isset($_SESSION['userid'])){
     header("Location: login/index.php");
     exit;

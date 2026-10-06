@@ -3,9 +3,10 @@ require_once("../include/db.php");
 require_once("../include/dataFetcher.php");
 require_once("../include/dataParser.php");
 require_once("../include/csrf.php");
+require_once("../include/session.php");
 
 
-session_start();
+session::start();
 if(!isset($_SESSION['userid'])){
     header("Location: login/index.php");
     exit;

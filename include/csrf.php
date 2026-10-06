@@ -1,6 +1,6 @@
 <?php
 //protects admin forms against cross-site request forgery
-//session_start() has to be called before using this class
+//session::start() has to be called before using this class
 
 class csrf{
     public static function getToken(){
