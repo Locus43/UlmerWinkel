@@ -5,7 +5,6 @@ use PHPMailer\PHPMailer\SMTP;
 
 require_once("db.php");
 require_once("phpmailer/src/Exception.php");
-require_once("phpmailer/src/OAuth.php");
 require_once("phpmailer/src/PHPMailer.php");
 require_once("phpmailer/src/POP3.php");
 require_once("phpmailer/src/SMTP.php");
@@ -13,7 +12,7 @@ require_once("phpmailer/src/SMTP.php");
 class mailDeamon{
 
 
-    public function sendRegisterMail($email){
+    public static function sendRegisterMail($email){
         $mailMask = parse_ini_file("mail.ini.php");
         $config = parse_ini_file('config.ini.php');
         $base_url = $config['base_url'];
@@ -62,15 +61,15 @@ class mailDeamon{
             syslog(LOG_INFO, "Mail has bee sent successfully");
         }catch(Exception $e){
             //apache_note('Mail_Error', 'Mail couldn\'t be sent. Mailer error: {$mail->ErrorInfo}');
-            syslog(LOG_ERROR, "Mail couldn\'t be sent. Mailer error: {$mail->ErrorInfo}");
+            syslog(LOG_ERR,"Mail couldn\'t be sent. Mailer error: {$mail->ErrorInfo}");
         }
     }
-    public function getID($email){
-        $query = "select id from newsletter where email = '" . $email . "'";
-        $result = db::getInstance()->get_result($query);
-        return $result[0][0];
+    public static function getID($email){
+        $query = "select id from newsletter where email = ?";
+        $result = db::getInstance()->get_result($query, [$email]);
+        return $result[0][0] ?? null;
     }
-    public function sendNewsletter($email, $text, $subject){
+    public static function sendNewsletter($email, $text, $subject){
         $recipient = $email;
         $mailConfig = parse_ini_file('config.ini.php');
         $sender = $mailConfig['smtp_sender'];

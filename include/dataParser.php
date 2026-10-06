@@ -7,7 +7,7 @@ include_once("mailDeamon.php");
 include_once("translateMonth.php");
 
 class dataParser{
-    public function getEvents(){
+    public static function getEvents(){
         //prepare data for newsletter
         $config = parse_ini_file('config.ini.php');
         $jsonPath = __DIR__ . $config['jsonPath'];
@@ -19,6 +19,7 @@ class dataParser{
         $translatedMonth = translateMonth::translate($currentMonth);
 
         //combine topics and data
+        $state = "";
         for ($i=0; $i<=10; $i++){
             switch ($i){
                 case 0:
@@ -115,7 +116,7 @@ class dataParser{
         }
 
 
-    }private function getUser($topic){
+    }private static function getUser($topic){
         $users = array();
         $query = "select " . $topic . ", email, is_confirmed as email from topics inner join newsletter on topics.uid = newsletter.id where " . $topic . " = '1' and newsletter.is_confirmed = '1'";
         $result = db::getInstance()->get_result($query);
@@ -125,7 +126,7 @@ class dataParser{
             }
         }
         return $users;
-    }private function mailPreparation($topic, $newsletter, $month){
+    }private static function mailPreparation($topic, $newsletter, $month){
         if(!$newsletter == ""){
             $config = parse_ini_file("mail.ini.php"); //config for mail mask
             $subject = $config['newsletterSubject'];
@@ -146,7 +147,7 @@ class dataParser{
                 mailDeamon::sendNewsletter($user, $newsletterTextUser, $subject);
             }
         }
-    }private function parser($data, $topic, $topicInt){
+    }private static function parser($data, $topic, $topicInt){
         $newsletterText = "";
         $currentMonth = date('m');
         $nextMonth = date('m',strtotime('first day of +1 month'));
@@ -174,7 +175,7 @@ class dataParser{
                                 $newsletterText .= "<tr><td style='padding: 10px;'>";
                                 if(!empty($eventImage) && !is_array($eventImage))
                                 {
-                                    $newsletterText .= "<img src=\"https:".$eventImage."\" width='120px'>";
+                                    $newsletterText .= "<img src=\"".$eventImage."\" width='120px'>";
                                 }
                                 $newsletterText .= "</td><td style='padding: 10px;'><strong>";
                                 if ($time == "00.00") {

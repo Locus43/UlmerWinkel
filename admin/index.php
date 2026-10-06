@@ -2,14 +2,23 @@
 require_once("../include/db.php");
 require_once("../include/dataFetcher.php");
 require_once("../include/dataParser.php");
+require_once("../include/csrf.php");
+require_once("../include/session.php");
 
 
-session_start();
+session::start();
 if(!isset($_SESSION['userid'])){
     header("Location: login/index.php");
+    exit;
 }
 
 /* button section for parse and fetch data */
+if(isset($_POST['fetch']) || isset($_POST['parse'])){
+    if(!csrf::check($_POST['csrf_token'] ?? '')){
+        http_response_code(403);
+        exit("Ungültige Anfrage. Bitte die Seite neu laden und erneut versuchen.");
+    }
+}
 if(isset($_POST['fetch'])){
     dataFetcher::fetchData();
 }if(isset($_POST['parse'])){
@@ -86,6 +95,7 @@ if($versionOnline != $currentVersion){
                 <button type="" class="button"><a href="newsletter.php">Newsletter verwalten</a></button><br><br>
                 <button type="" class="button"><a href="users.php">Userverwaltung</a></button><br><br>
                 <form method="post" action="">
+                    <?php echo csrf::field(); ?>
                     <button type="" class="button" name="fetch">Daten manuell holen</button><br><br>
                     <button type="" class="button" name="parse">Newsletter manuell senden</button>
                 </form>

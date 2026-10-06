@@ -1,9 +1,12 @@
 <?php
 require_once("../include/db.php");
+require_once("../include/csrf.php");
+require_once("../include/session.php");
 
-session_start();
+session::start();
 if(!isset($_SESSION['userid'])){
     header("Location: login/index.php");
+    exit;
 }
 
 $query = "select email from newsletter where is_confirmed='1'";
@@ -60,14 +63,16 @@ $result = db::getInstance()->get_result($query);
                 entsprechende Option im Drop-Down Menü.
                 </p>
             <p>
-                <form action="bakeCake.php">
+                <form action="bakeCake.php" method="post">
+                    <?php echo csrf::field(); ?>
                     <p>Hier können Sie den Newsletter verfassen. HTML-Tags werden unterstützt. Eine entsprechende Liste gibt es <a href="https://www.mediaevent.de/html/html5-tags.html">hier.</a></p>
                     <hr>
                     <select name="emailOption">
                         <option value="all">Alle</option>
                         <?php
                             for($i = 0; $i < count($result); $i++){
-                              echo "<option value='" . $result[$i][0] . "'>" . $result[$i][0] . "</option>";
+                              $email = htmlspecialchars($result[$i][0], ENT_QUOTES, 'UTF-8');
+                              echo "<option value='" . $email . "'>" . $email . "</option>";
                              }
                         ?>
                     </select>
