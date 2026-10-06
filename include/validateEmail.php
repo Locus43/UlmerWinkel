@@ -2,8 +2,8 @@
 require_once("db.php");
 
 class validateEmail{
+    //validates the address exactly as it will be stored, so no sanitizing here
     public static function validate($email){
-        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
         $duplicate = validateEmail::checkForDuplicates($email);
         if(filter_var($email, FILTER_VALIDATE_EMAIL) && $duplicate == false){
             return true;

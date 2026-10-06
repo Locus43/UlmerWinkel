@@ -5,7 +5,7 @@ require_once('../include/mailDeamon.php');
 require_once('../include/generateId.php');
 
 $id = "null";
-$email = $_GET['email'] ?? '';
+$email = trim($_GET['email'] ?? '');
 $topics = $_GET['topic'] ?? [];
 $valid = false;
 
