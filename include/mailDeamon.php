@@ -5,7 +5,6 @@ use PHPMailer\PHPMailer\SMTP;
 
 require_once("db.php");
 require_once("phpmailer/src/Exception.php");
-require_once("phpmailer/src/OAuth.php");
 require_once("phpmailer/src/PHPMailer.php");
 require_once("phpmailer/src/POP3.php");
 require_once("phpmailer/src/SMTP.php");
