@@ -1,7 +1,7 @@
 <?php
 require_once("../include/db.php");
 
-$id = $_GET['id'];
+$id = $_GET['id'] ?? '';
 
 if($id != ""){
     $query = "update newsletter set is_confirmed = '1' where id = '" . $id . "'";

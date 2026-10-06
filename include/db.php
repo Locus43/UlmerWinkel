@@ -7,7 +7,7 @@
         private $db;
         private $host;
 
-        public function getInstance(){
+        public static function getInstance(){
             if(!self::$instance instanceof self){
                 self::$instance = new self;
             }
@@ -15,11 +15,11 @@
         }
 
         public function __clone(){
-            trigger_error('Clone is not allowed.', E_USER_ERROR);
+            throw new Exception('Clone is not allowed.');
         }
-        public function __wakeup()
+        public function __unserialize(array $data)
         {
-            trigger_error('Deserializing is not allowed.', E_USER_ERROR);
+            throw new Exception('Deserializing is not allowed.');
         }
         public function __construct(){
             $config = parse_ini_file('config.ini.php');
@@ -28,11 +28,13 @@
             $this->passwd = $config['db_password'];
             $this->db = $config['db_name'];
 
+            //PHP >= 8.1 throws exceptions by default, keep returning false on errors like before
+            mysqli_report(MYSQLI_REPORT_OFF);
             parent::__construct($this->host, $this->user, $this->passwd, $this->db);
             if(mysqli_connect_error()){
                 exit('Connection error (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
             }
-            parent::set_charset('utf-8');
+            parent::set_charset('utf8mb4');
         }
         public function dbquery($query){
             if($this->query($query)){
@@ -43,10 +45,10 @@
         }
         public function get_result($query){
             $result = $this->query($query);
-            if ($result->num_rows > 0) {
+            if ($result && $result->num_rows > 0) {
                 $row = $result->fetch_all();
                 return $row;
             }else
-                return null;
+                return [];
         }
     }

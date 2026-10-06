@@ -2,8 +2,8 @@
 require_once("../include/db.php");
 require_once("../include/validateEmail.php");
 
-$id = $_GET['id'];
-$confirm = $_GET['confirm'];
+$id = $_GET['id'] ?? '';
+$confirm = $_GET['confirm'] ?? '';
 
 if($confirm === "true") {
     $valid = validateEmail::checkForId($id);
