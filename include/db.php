@@ -7,7 +7,7 @@
         private $db;
         private $host;
 
-        public function getInstance(){
+        public static function getInstance(){
             if(!self::$instance instanceof self){
                 self::$instance = new self;
             }
@@ -15,11 +15,11 @@
         }
 
         public function __clone(){
-            trigger_error('Clone is not allowed.', E_USER_ERROR);
+            throw new Exception('Clone is not allowed.');
         }
-        public function __wakeup()
+        public function __unserialize(array $data)
         {
-            trigger_error('Deserializing is not allowed.', E_USER_ERROR);
+            throw new Exception('Deserializing is not allowed.');
         }
         public function __construct(){
             $config = parse_ini_file('config.ini.php');
@@ -28,25 +28,32 @@
             $this->passwd = $config['db_password'];
             $this->db = $config['db_name'];
 
-            parent::__construct($this->host, $this->user, $this->passwd, $this->db);
+            //PHP >= 8.1 throws exceptions by default, keep returning false on errors like before
+            mysqli_report(MYSQLI_REPORT_OFF);
+            //@: the warning would show host and user name, the error is handled below
+            @parent::__construct($this->host, $this->user, $this->passwd, $this->db);
             if(mysqli_connect_error()){
-                exit('Connection error (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
+                //details only to the log, visitors must not see host or user name
+                syslog(LOG_ERR, 'DB connection error (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
+                http_response_code(503);
+                exit('Der Dienst ist vorübergehend nicht erreichbar. Bitte versuchen Sie es später erneut.');
             }
-            parent::set_charset('utf-8');
+            parent::set_charset('utf8mb4');
         }
-        public function dbquery($query){
-            if($this->query($query)){
+        //$params are bound to the ?-placeholders in $query (prepared statement)
+        public function dbquery($query, $params = []){
+            if($this->execute_query($query, $params ?: null)){
                 return true;
             }else{
                 return false;
             }
         }
-        public function get_result($query){
-            $result = $this->query($query);
-            if ($result->num_rows > 0) {
+        public function get_result($query, $params = []){
+            $result = $this->execute_query($query, $params ?: null);
+            if ($result && $result->num_rows > 0) {
                 $row = $result->fetch_all();
                 return $row;
             }else
-                return null;
+                return [];
         }
     }

@@ -2,17 +2,17 @@
 require_once("../include/db.php");
 require_once("../include/validateEmail.php");
 
-$id = $_GET['id'];
-$confirm = $_GET['confirm'];
+$id = $_GET['id'] ?? '';
+$confirm = $_GET['confirm'] ?? '';
 
 if($confirm === "true") {
     $valid = validateEmail::checkForId($id);
 
     if($id != "" && $valid){
-        $query = "delete from newsletter where id = '" . $id . "'";
-        $resultNewsletter = db::getInstance()->dbquery($query);
-        $query = "delete from topics where uid = '" . $id . "'";
-        $resultTopics = db::getInstance()->dbquery($query);
+        $query = "delete from newsletter where id = ?";
+        $resultNewsletter = db::getInstance()->dbquery($query, [$id]);
+        $query = "delete from topics where uid = ?";
+        $resultTopics = db::getInstance()->dbquery($query, [$id]);
         $query = "INSERT INTO events (eventtype) values('unsubscribe')";
         $resultStatics = db::getInstance()->dbquery($query);
     
@@ -36,7 +36,7 @@ if($confirm === "true") {
         <p>Bitte best&auml;tigen Sie Ihre Abmeldung vom Ulmer-Winkel-Newsletter:</p>
         <form method="get">
 			<input type="hidden" name="confirm" value="true">
-			<input type="hidden" name="id" value="<?php echo $id; ?>">
+			<input type="hidden" name="id" value="<?php echo htmlspecialchars($id, ENT_QUOTES, 'UTF-8'); ?>">
             <input type="submit" value="Abmelden">
         </form>
     </body>

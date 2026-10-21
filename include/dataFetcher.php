@@ -1,7 +1,7 @@
 <?php
 
 class dataFetcher{
-   public function fetchData(){
+   public static function fetchData(){
        $config = parse_ini_file('config.ini.php');
        $baseUrl = $config['url'];
        $jsonPath = __DIR__ . $config['jsonPath'];
@@ -15,7 +15,6 @@ class dataFetcher{
                CURLOPT_ENCODING => 'UTF-8'
            ));
            $data = curl_exec($curl);
-           curl_close($curl);
            $xml = simplexml_load_string($data,'SimpleXMLElement',LIBXML_NOCDATA);
            $json = json_encode($xml);
            $json = json_decode($json, TRUE);

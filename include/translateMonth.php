@@ -2,7 +2,7 @@
 
 
 class translateMonth{
-    public function translate($month){
+    public static function translate($month){
         $monthsDE = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
 
         if($month != 1){
